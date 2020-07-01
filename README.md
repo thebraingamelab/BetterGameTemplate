@@ -1,6 +1,6 @@
 # Resizer
 Canvas resizing library + template
-
+<br/><br/><br/>
 
 
 # Documentation - Useful Functions
@@ -16,7 +16,7 @@ Executes the Resizer's default resize code as well as any user-defined resize ev
 ### `resizer.removeResizeEvent(func)`
 
 ### `resizer.getRelativeEventCoords(event)`
-
+<br/><br/><br/>
 
 
 ## Accessors (Getters)
