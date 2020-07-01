@@ -16,6 +16,7 @@ let resizer = (function() {
     let _isInitialized = false;
     let _resizeEvents = [];
     let _numResizeEvents = 0;
+    let _context;
 
 
     // Exposed variables
@@ -121,75 +122,9 @@ let resizer = (function() {
         };
     }
 
-
-    /*/ Initialize configuration object
-    function _loadConfiguration(callback) {
-        // Set up variables
-        let filePath = "config.json";
-        let xhr = new XMLHttpRequest();
-
-        // Open a request for the JSON file
-        xhr.open("GET", encodeURI(filePath), true);
-        xhr.responseType = "json";
-
-        // Oopsie doopsie, couldn't fetch the file
-        xhr.addEventListener("error", function() {
-            console.log("Error loading from server: " + filePath);
-        }, false);
-
-        // On successful load, do xxx
-        xhr.addEventListener("load", function() {
-            config = xhr.response;
-
-            _createHTML();
-
-            if (config.resizeDelay > 0) {
-                window.addEventListener('resize', _debounce(_resize, config.resizeDelay, false), false);
-            }
-            else {
-                window.addEventListener('resize', _resize, false);
-            }
-
-            callback();
-        });
-
-        xhr.send();
-    }//*/
-
-
-    // Create the HTML structure
-    function _createHTML() {
-
-        _container = document.getElementById(config.containerId);
-        _currentWidth = config.gameFieldWidth;
-        _currentHeight = config.gameFieldHeight;
-
-        // Begin a document fragment to start making HTML
-        //content = document.createElement("fragment");
-
-        // Make a canvas
-        if (config.usingCanvas) {
-            _canvas = document.createElement("canvas");
-
-            _canvas.width = _currentWidth;
-            _canvas.height = _currentHeight;
-            _canvas.style.backgroundColor = "white";
-            _canvas.style.position = "absolute";
-
-            //content.appendChild(_canvas);
-        }
-
-        /* Make other desired HTML content
-        else {
-
-        }*/
-
-        //_container.appendChild(content);
-        _container.appendChild(_canvas);
-    }
-
     // Resize the canvas
     function _resize() {
+        const DPR = window.devicePixelRatio;
         let ratio, i;
 
         // Figure out orientation
@@ -260,7 +195,14 @@ let resizer = (function() {
             }
         }
 
-        // Adjust canvas accordingly
+        // For high-DPI display, increase the actual size of the canvas
+        _canvas.width = config.gameFieldWidth * DPR;
+        _canvas.height = config.gameFieldHeight * DPR;
+
+        // Ensure all drawing operations are scaled
+        _context.scale(DPR, DPR);
+
+        // Scale everything down using CSS
         _canvas.style.width = _currentWidth + "px";
         _canvas.style.height = _currentHeight + "px";
 
@@ -395,10 +337,11 @@ let resizer = (function() {
 
             if (config.canvasId !== "") {
 
-                // Get the canvas
+                // Get the canvas info
                 _canvas = document.getElementById(config.canvasId);
+                _context = _canvas.getContext("2d");
 
-                // Set canvas width and height to be ideal dimensions at first
+                // Set canvas width and height
                 _currentWidth = config.gameFieldWidth;
                 _currentHeight = config.gameFieldHeight;
 

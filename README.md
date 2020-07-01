@@ -37,7 +37,7 @@ Only applicable if using a canvas and `stretchToFit: false`. Returns the mode us
 <br/>
 
 ### `resizer.getCanvas()`
-Only applicable if using a canvas. Returns the canvas element as specified by its id in `config.js`
+Only applicable if using a canvas. Returns the canvas element as specified by its id in `config.js`.
 <br/>
 
 ### `resizer.getContainer()`

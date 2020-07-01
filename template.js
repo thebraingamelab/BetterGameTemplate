@@ -22,8 +22,9 @@
     let doSomething = (function() {
 
         // Get the game field width/height.
-        // Note that the ingame width/height will always be as they are in config.js
-        // (in this example it is 540x960). Ingame pixels automatically scale to canvas size.
+        // Note that the logical ingame width/height will always be as they are in config.js
+        // (in this example it is 540x960). Logical ingame pixels automatically scale to
+        // physical canvas style size.
         const GAME_WIDTH = resizer.getGameWidth();
         const GAME_HEIGHT = resizer.getGameHeight();
 
