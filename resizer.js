@@ -211,10 +211,8 @@ let resizer = (function() {
 
 
         // Call the resize event(s)
-        if (_numResizeEvents > 0) {
-            for (i = 0; i < _numResizeEvents; i++) { 
-                _resizeEvents[i]();
-            }
+        for (i = 0; i < _numResizeEvents; i++) { 
+            _resizeEvents[i]();
         }
     }
 
