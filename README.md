@@ -7,17 +7,17 @@ Canvas resizing library + template
 
 ### `resizer.init()`
 Initializes the Resizer for use. It also performs one execution of resizing code if necessary, and begins the DOM 'resize' event listener.
-<br\>
+<br/>
 
 ### `resizer.resize()`
 Executes the Resizer's default resize code as well as any user-defined resize events.
-<br\>
+<br/>
 
 ### `resizer.addResizeEvent(func)`
-<br\>
+<br/>
 
 ### `resizer.removeResizeEvent(func)`
-<br\>
+<br/>
 
 ### `resizer.getRelativeEventCoords(event)`
 <br/><br/><br/>
@@ -26,26 +26,26 @@ Executes the Resizer's default resize code as well as any user-defined resize ev
 ## Accessors (Getters)
 
 ### `resizer.getOrientation()`
-<br\>
+<br/>
 
 ### `resizer.getSizeMode()`
-<br\>
+<br/>
 
 ### `resizer.getCanvas()`
-<br\>
+<br/>
 
 ### `resizer.getContainer()`
-<br\>
+<br/>
 
 ### `resizer.getGameHeight()`
-<br\>
+<br/>
 
 ### `resizer.getGameWidth()`
-<br\>
+<br/>
 
 ### `resizer.getCanvasWidth()`
-<br\>
+<br/>
 
 ### `resizer.getCanvasHeight()`
-<br\>
+<br/>
 
