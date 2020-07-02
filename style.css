@@ -23,3 +23,17 @@ body {
 #game-canvas {
     background-color: white;
 }
+
+#sample-button {
+    background-color: pink;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin: auto;
+    text-align: center;
+    text-decoration: none;
+    position: absolute;
+    z-index: 1;
+    border-width: 1px;
+    border-color: rgb(247, 245, 199)
+}

@@ -12,11 +12,46 @@
     // Initialize the resizer
     resizer.init();
 
-    // Grab some important values from the resizer
+    // Grab some important values from the resizer    
     let myContainer = resizer.getContainer();
-    
+
     let myCanvas = resizer.getCanvas();
     let myContext = myCanvas.getContext("2d");
+
+    // Get the sample button element
+    let myBtn = document.getElementById("sample-button");
+
+
+    
+
+    // Every time the Resizer resizes things, do some extra
+    // recaculations to position the sample button in the center
+    resizer.addResizeEvent(centerButton);
+
+    // Manual resize to ensure that our resize function is executed
+    resizer.resize();
+
+
+
+
+    // The function for centering our sample button
+    function centerButton() {
+        let canvasRect = myCanvas.getBoundingClientRect();
+
+        // Calculate the center of the canvas
+        let canvasCenterX = canvasRect.left + (resizer.getCanvasWidth()/2);
+        let canvasCenterY = canvasRect.top + (resizer.getCanvasHeight()/2);
+        
+        // Horizontally center the button
+        myBtn.style.left = ( canvasCenterX - (myBtn.clientWidth/2) ) + "px";
+
+        // Vertically center the button
+        myBtn.style.top = ( canvasCenterY - (myBtn.clientHeight/2) ) + "px";
+    }
+
+
+
+
 
     // Example helper function to do an arbitrary thing with the canvas
     let doSomething = (function() {
