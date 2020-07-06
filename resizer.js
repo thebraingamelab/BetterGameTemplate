@@ -124,7 +124,7 @@ let resizer = (function() {
 
     // Resize the canvas
     function _resize() {
-        const DPR = window.devicePixelRatio;
+        const DPR = window.devicePixelRatio || 1;
         let ratio, i;
 
         // Figure out orientation
@@ -196,8 +196,8 @@ let resizer = (function() {
         }
 
         // For high-DPI display, increase the actual size of the canvas
-        _canvas.width = config.gameFieldWidth * DPR;
-        _canvas.height = config.gameFieldHeight * DPR;
+        _canvas.width = Math.round(config.gameFieldWidth * DPR);
+        _canvas.height = Math.round(config.gameFieldHeight * DPR);
 
         // Ensure all drawing operations are scaled
         _context.scale(DPR, DPR);
