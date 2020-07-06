@@ -1,8 +1,11 @@
+
+/* Ensures the document body logically fits the size of the screen */
 html {
     height: 100%;
     width: 100%;
 }
 
+/* Also ensures the document body logically fits the size of the screen (no scrollbars either) */
 body {
     background-color: black; 
     margin: 0; 
@@ -12,18 +15,24 @@ body {
     width: 100%;
 }
 
+/* Styling for the div containing the game */
 #game-container {
+
+    /* The container fits the entire screen */
     height: 100%;
     width: 100%;
 
-    /* Container position other than static is required for canvas positioning to work */
+    /* A container position other than static is required for canvas positioning (i.e. bottom center) to work */
     position: relative;
 }
 
+/* Styling for the game canvas */
 #game-canvas {
     background-color: white;
 }
 
+/* Styling for the example of additional HTML content */
+/* See template.js for how it is centered */
 #sample-button {
     background-color: pink;
     color: black;

@@ -36,6 +36,8 @@
 
     // The function for centering our sample button
     function centerButton() {
+
+        // Get the canvas' bounding rectangle
         let canvasRect = myCanvas.getBoundingClientRect();
 
         // Calculate the center of the canvas
