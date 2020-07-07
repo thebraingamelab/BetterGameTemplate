@@ -29,6 +29,7 @@
     resizer.addResizeEvent(centerButton);
 
     // Manual resize to ensure that our resize function is executed
+    // (could have also just called centerButton() but this will do for demonstration purposes)
     resizer.resize();
 
 
