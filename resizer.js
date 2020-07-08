@@ -17,6 +17,8 @@ let resizer = (function() {
     let _resizeEvents = [];
     let _numResizeEvents = 0;
     let _context;
+    let _heightPlusPadding, _widthPlusPadding;
+    let _paddingLeft, _paddingRight, _paddingTop, _paddingBottom;
 
 
     // Exposed variables
@@ -127,6 +129,16 @@ let resizer = (function() {
         const DPR = window.devicePixelRatio || 1;
         let ratio, i;
 
+        // Get container's padding values
+        _paddingLeft = parseFloat(window.getComputedStyle(_container).getPropertyValue('padding-left'));
+        _paddingRight = parseFloat(window.getComputedStyle(_container).getPropertyValue('padding-right'));
+        _paddingTop = parseFloat(window.getComputedStyle(_container).getPropertyValue('padding-top'));
+        _paddingBottom = parseFloat(window.getComputedStyle(_container).getPropertyValue('padding-bottom'));
+
+        // Calculate the inner dimensions with padding taken into account
+        _heightPlusPadding = _container.clientHeight - (_paddingTop+_paddingBottom);
+        _widthPlusPadding = _container.clientWidth - (_paddingLeft+_paddingRight);
+
         // Figure out orientation
         if (config.orientation === "both") {
             if (window.innerWidth >= window.innerHeight) {
@@ -142,8 +154,8 @@ let resizer = (function() {
 
         // Stretch to fit?
         if (config.stretchToFit) {
-            _currentHeight = _container.clientHeight;
-            _currentWidth = _container.clientWidth;
+            _currentHeight = _heightPlusPadding;
+            _currentWidth = _widthPlusPadding;
         }
 
         // Conform width to aspect ratio if not stretching to fit
@@ -155,11 +167,11 @@ let resizer = (function() {
                 // Get aspect ratio
                 ratio = config.gameFieldWidth / config.gameFieldHeight;
 
-                _currentHeight = _container.clientHeight;
+                _currentHeight = _heightPlusPadding;
                 _currentWidth = _currentHeight * ratio;
 
                 // Double check that the aspect ratio fits the container
-                if ( Math.floor(_currentWidth) > _container.clientWidth ) {
+                if ( Math.floor(_currentWidth) > _widthPlusPadding ) {
 
                     _sizeMode = "fitHeight";
 
@@ -167,7 +179,7 @@ let resizer = (function() {
                     ratio = config.gameFieldHeight / config.gameFieldWidth;
 
                     // Get correct  dimensions
-                    _currentWidth = _container.clientWidth;
+                    _currentWidth = _widthPlusPadding;
                     _currentHeight = _currentWidth * ratio;
                 }
             }
@@ -178,18 +190,18 @@ let resizer = (function() {
                 ratio = config.gameFieldHeight / config.gameFieldWidth;
 
                 // Get correct  dimensions
-                _currentWidth = _container.clientWidth;
+                _currentWidth = _widthPlusPadding;
                 _currentHeight = _currentWidth * ratio;
 
 
                 // Double check that the aspect ratio fits the container
-                if ( Math.floor(_currentHeight) > _container.clientHeight ) {
+                if ( Math.floor(_currentHeight) > _heightPlusPadding ) {
                     _sizeMode = "fitWidth";
                 
                     // Get aspect ratio
                     ratio = config.gameFieldWidth / config.gameFieldHeight;
 
-                    _currentHeight = _container.clientHeight;
+                    _currentHeight = _heightPlusPadding;
                     _currentWidth = _currentHeight * ratio;
                 }
             }
@@ -221,57 +233,38 @@ let resizer = (function() {
         // Get the requested positioning
         let position = config.canvasPosition.split(" ");
 
-        // Get container coordinates relative to page (not viewport)
-        let bodyRect = document.body.getBoundingClientRect();
-        let containerRect = _container.getBoundingClientRect();
+        let bodyRect, containerRect, cPageX, cPageY;
 
-        let cPageX = containerRect.left - bodyRect.left;
-        let cPageY = containerRect.top - bodyRect.top;
+        // If the container is absolute, canvas is positioned relative to document body
+        if (_container.style.position === "absolute") {
+
+            // Get container coordinates relative to page (not viewport)
+            bodyRect = document.body.getBoundingClientRect();
+            containerRect = _container.getBoundingClientRect();
+
+            cPageX = containerRect.left - bodyRect.left;
+            cPageY = containerRect.top - bodyRect.top;
+        }
+
+        // If container is not absolute, canvas is positioned relative to parent
+        else {
+            cPageX = 0;
+            cPageY = 0;
+        }
 
         // Vertical positioning
         switch (position[0]) {
             default:
             case "center":
-                // If parent is absolute, canvas is positioned relative to document body
-                if (_container.style.position === "absolute") {
-
-                    _canvas.style.top = cPageY + ( (_container.clientHeight/2) - (_currentHeight/2) ) + "px";
-                }
-
-                // If parent is not absolute, canvas is positioned relative to parent
-                else {
-                    _canvas.style.top = "50%";
-                    _canvas.style.marginTop = "-" + (_currentHeight/2) + "px";
-                }
-
+                _canvas.style.top = cPageY + _paddingTop + ( (_heightPlusPadding/2) - (_currentHeight/2) ) + "px";
                 break;
 
             case "top":
-                // If parent is absolute, canvas is positioned relative to document body
-                if (_container.style.position === "absolute") {
-                        
-                    _canvas.style.top = cPageY + "px";
-                }
-
-                // If parent is not absolute, canvas is positioned relative to parent
-                else {
-                    _canvas.style.top = 0;
-                }
-
+                _canvas.style.top = cPageY + _paddingTop + "px";
                 break;
 
             case "bottom":
-                // If parent is absolute, canvas is positioned relative to document body
-                if (_container.style.position === "absolute") {
-                    
-                    _canvas.style.bottom = cPageY + _container.clientHeight + "px";
-                }
-
-                // If parent is not absolute, canvas is positioned relative to parent
-                else {
-                    _canvas.style.bottom = 0;
-                }
-
+                _canvas.style.top = cPageY + _container.clientHeight - _currentHeight - paddingBottom + "px";
                 break;
             
         }
@@ -280,46 +273,15 @@ let resizer = (function() {
         switch(position[1]) {
             default:
             case "center":
-                // If parent is absolute, canvas is positioned relative to document body
-                if (_container.style.position === "absolute") {
-                    
-                    _canvas.style.left = cPageX + ( (_container.clientWidth/2) - (_currentWidth/2) ) + "px";
-                }
-
-                // If parent is not absolute, canvas is positioned relative to parent
-                else {
-                    _canvas.style.left = "50%";
-                    _canvas.style.marginLeft = "-" + (_currentWidth/2) + "px";
-                }
-
+                _canvas.style.left = cPageX + _paddingLeft + ( (_widthPlusPadding/2) - (_currentWidth/2) ) + "px";
                 break;
 
             case "left":
-                // If parent is absolute, canvas is positioned relative to document body
-                if (_container.style.position === "absolute") {
-                    
-                    _canvas.style.left = cPageX + "px";
-                }
-
-                // If parent is not absolute, canvas is positioned relative to parent
-                else {
-                    _canvas.style.left = 0;
-                }
-
+                _canvas.style.left = cPageX + _paddingLeft + "px";
                 break;
 
             case "right":
-                // If parent is absolute, canvas is positioned relative to document body
-                if (_container.style.position === "absolute") {
-                    
-                    _canvas.style.right = cPageX + _container.clientWidth + "px";
-                }
-
-                // If parent is not absolute, canvas is positioned relative to parent
-                else {
-                    _canvas.style.right = 0;
-                }
-
+                _canvas.style.left = cPageX + _container.clientWidth - _currentWidth - _paddingRight + "px";
                 break;
         }
     }
