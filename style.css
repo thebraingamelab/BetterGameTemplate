@@ -1,4 +1,10 @@
 
+/* Get rid of annoying automatic margins/padding, just override when needed */
+* {
+    margin: 0;
+    padding: 0;
+}
+
 /* Ensures the document body logically fits the size of the screen */
 html {
     height: 100%;
@@ -13,36 +19,204 @@ body {
     overflow: hidden;
     height: 100%;
     width: 100%;
-}
 
-/* Styling for the div containing the game */
-#game-container {
-
-    /* The container fits the entire screen */
-    height: 100%;
-    width: 100%;
-
-    /* A container position other than static is required for canvas positioning (i.e. bottom center) to work */
+    /* A container position other than static is required for canvas/wrapper positioning (i.e. bottom center) to work */
     position: relative;
+
+    /* Set page font families */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Styling for the game canvas */
 #game-canvas {
     background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-/* Styling for the example of additional HTML content */
-/* See template.js for how it is centered */
-#sample-button {
-    background-color: pink;
-    color: black;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    margin: auto;
-    text-align: center;
-    text-decoration: none;
+/* Styling for general menus */
+.menu {
+    background-color:rgb(49, 58, 109);
+    z-index: 3;
+
+    /* Center the menu */
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+        
+}
+
+.menu-button {
+    display: block;
+    margin: auto;
+    margin-top: 5%;
+
+    width: 80%;
+    height: 10%;
+
+    color: rgb(35, 42, 78);
+
+    border-style: none;
+    box-shadow: 5px 5px rgb(35, 42, 78);
+}
+
+.menu-button:hover {
+    background-color: lightgreen;
+}
+
+.menu-button:active {
+    background-color: lightgreen;
+
+    box-shadow: none;
+    transform: translate(2px, 2px);
+}
+
+#pause-menu {
+    height: 50%;
+    width: 65%;
+}
+
+#pause-menu-label {
+    width: 100%;
+    height: 20%;
+    color: white;
+    position: relative;
+    display: block;
+}
+
+#pause-menu-label > h1 {
+    /* Center the text within the label div */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Styling for the top bar */
+#top-bar {
+    background-color: rgb(49, 58, 109);
+    margin: auto;
+    margin-top: 5%;
+    height: 6%;
+    width: 90%;
+    position: relative;
     z-index: 1;
-    border-width: 1px;
-    border-color: rgb(247, 245, 199)
+}
+
+#top-bar > .bar-button > button {
+    height: 95%;
+    width: 95%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    border-style: none;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+/* Styling for general bar button elements */
+.bar-button {
+    position: absolute;
+    z-index: 2;
+
+    /* Vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.bar-button > button:active{
+    transform: translate(4%, 4%);
+ }
+
+/* Pause button styling*/
+#pause-box {
+    background-color: #581652;
+
+    /* Far left of the bar */
+    left: 0;
+}
+
+#pause {
+    background-image: url("img/pause.svg");
+}
+
+/* Help button styling */
+#help-box {
+    background-color: #5e031d;
+
+    /* Slightly to the right of the first box */
+    transform: translate(120%, -50%)
+}
+
+#help {
+    background-image: url("img/help.svg");
+}
+
+/* The text on the top bar (eg "LEVEL: 1") */
+#bar-label {
+    color: white;
+    font-style: italic;
+    
+    position: absolute;
+    right: 5%;
+
+    /* Vertically center the text */
+    bottom: 50%;
+    line-height: 6%;
+}
+
+/* Media queries to set different font sizes for various screen sizes */
+@media screen and (min-height: 601px) {
+    * {
+        font-size: 18px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-height: 600px) {
+    * {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+}
+
+@media screen and (max-height: 400px) {
+    * {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+}
+
+@media screen and (max-height: 300px) {
+    * {
+        font-size: 8px;
+    }
+
+    h1 {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-height: 200px) {
+    * {
+        font-size: 6px;
+    }
+
+    h1 {
+        font-size: 8px;
+    }
 }

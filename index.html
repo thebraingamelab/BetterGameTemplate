@@ -22,13 +22,55 @@
     <!--<script src="optional2.js" defer></script>-->
 </head>
 
-<body>
+<!-- The body is selected as the game container -->
+<body id="game-container">
 
-    <!-- The div containing the game -->
-    <div id="game-container">
+    <!-- The div containing the canvas -->
+    <div id="canvas-wrapper">
+
+        <!-- Top menu -->
+        <div id="top-bar">
+
+            <div id="pause-box" class="bar-button">
+                <button id="pause"></button>
+            </div>
+
+            <div id="help-box" class="bar-button">
+                <button id="help"></button>
+            </div>
+
+            <div id="bar-label">
+                LEVEL: 1
+            </div>
+
+        </div>
+
+        <!-- Pause Menu -->
+        <div class="menu" id="pause-menu">
+
+            <div id="pause-menu-label">
+                <h1>PAUSED</h1>
+            </div>
+
+            <button id="resume" class="menu-button">
+                <h2>RESUME</h2>
+            </button>
+
+            <!--<button id="restart"></button>
+
+            <button id="exit"></button>
+
+            <button id="music"></button>
+
+            <button id="volume"></button>
+
+            <button id="help-questionmarkmarkmark"></button>-->
+
+        </div>
 
         <!-- Any additional HTML content can go here -->
-        <button id="sample-button">Sample Button</button>
+
+
         
         <!-- The game canvas -->
         <canvas id="game-canvas"></canvas>

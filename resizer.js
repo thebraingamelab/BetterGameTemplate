@@ -16,13 +16,17 @@ let resizer = (function() {
     let _isInitialized = false;
     let _resizeEvents = [];
     let _numResizeEvents = 0;
+
+    let _canvasBoundingRect;
     let _context;
+
+
     let _heightPlusPadding, _widthPlusPadding;
     let _paddingLeft, _paddingRight, _paddingTop, _paddingBottom;
 
 
     // Exposed variables
-    let _container, _canvas;
+    let _container, _canvas, _wrapper;
     let _currentHeight, _currentWidth;
     let _sizeMode;
     let _orientation;
@@ -215,12 +219,14 @@ let resizer = (function() {
         _context.scale(DPR, DPR);
 
         // Scale everything down using CSS
-        _canvas.style.width = _currentWidth + "px";
-        _canvas.style.height = _currentHeight + "px";
+        _wrapper.style.width = _currentWidth + "px";
+        _wrapper.style.height = _currentHeight + "px";
 
         // Position the canvas within the container according to config
         _positionCanvas();
 
+        // Update bounding rect
+        _canvasBoundingRect = _canvas.getBoundingClientRect();
 
         // Call the resize event(s)
         for (i = 0; i < _numResizeEvents; i++) { 
@@ -256,15 +262,15 @@ let resizer = (function() {
         switch (position[0]) {
             default:
             case "center":
-                _canvas.style.top = cPageY + _paddingTop + ( (_heightPlusPadding/2) - (_currentHeight/2) ) + "px";
+                _wrapper.style.top = Math.round(cPageY + _paddingTop + ( (_heightPlusPadding/2) - (_currentHeight/2) )) + "px";
                 break;
 
             case "top":
-                _canvas.style.top = cPageY + _paddingTop + "px";
+                _wrapper.style.top = Math.round(cPageY + _paddingTop) + "px";
                 break;
 
             case "bottom":
-                _canvas.style.top = cPageY + _container.clientHeight - _currentHeight - paddingBottom + "px";
+                _wrapper.style.top = Math.round(cPageY + _container.clientHeight - _currentHeight - _paddingBottom) + "px";
                 break;
             
         }
@@ -273,15 +279,15 @@ let resizer = (function() {
         switch(position[1]) {
             default:
             case "center":
-                _canvas.style.left = cPageX + _paddingLeft + ( (_widthPlusPadding/2) - (_currentWidth/2) ) + "px";
+                _wrapper.style.left = Math.round(cPageX + _paddingLeft + ( (_widthPlusPadding/2) - (_currentWidth/2) )) + "px";
                 break;
 
             case "left":
-                _canvas.style.left = cPageX + _paddingLeft + "px";
+                _wrapper.style.left = Math.round(cPageX + _paddingLeft) + "px";
                 break;
 
             case "right":
-                _canvas.style.left = cPageX + _container.clientWidth - _currentWidth - _paddingRight + "px";
+                _wrapper.style.left = Math.round(cPageX + _container.clientWidth - _currentWidth - _paddingRight) + "px";
                 break;
         }
     }
@@ -297,7 +303,8 @@ let resizer = (function() {
 
             if (config.canvasId !== "") {
 
-                // Get the canvas info
+                // Get the canvas/wrapper info
+                _wrapper = document.getElementById(config.wrapperId);
                 _canvas = document.getElementById(config.canvasId);
                 _context = _canvas.getContext("2d");
 
@@ -307,9 +314,13 @@ let resizer = (function() {
 
                 _canvas.width = _currentWidth;
                 _canvas.height = _currentHeight;
+
+                // The wrapper is resized while the canvas just fits to the wrapper
+                _canvas.style.width = "100%";
+                _canvas.style.height = "100%";
                 
-                // Canvas must be absolutely positioned to position it correctly within container
-                _canvas.style.position = "absolute";
+                // Wrapper must be absolutely positioned to position it correctly within container
+                _wrapper.style.position = "absolute";
             }
 
             // Set resize events
@@ -331,6 +342,10 @@ let resizer = (function() {
     
 
     // Accessors
+
+    function _getCanvasBoundingRect() {
+        return _canvasBoundingRect;
+    }
 
     function _getOrientation() {
         return _orientation;
@@ -403,6 +418,7 @@ let resizer = (function() {
         getGameWidth: _getGameWidth,
         getCanvasWidth: _getCanvasWidth,
         getCanvasHeight: _getCanvasHeight,
+        getCanvasBoundingRect: _getCanvasBoundingRect,
         addResizeEvent: _addResizeEvent,
         removeResizeEvent: _removeResizeEvent,
         getRelativeEventCoords: _getRelativeEventCoords

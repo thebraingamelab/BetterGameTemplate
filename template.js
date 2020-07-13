@@ -12,44 +12,72 @@
     // Initialize the resizer
     resizer.init();
 
+
+
+    //////////////////////////
+    // Variable declarations
+    //////////////////////////
+
     // Grab some important values from the resizer    
     let myContainer = resizer.getContainer();
 
     let myCanvas = resizer.getCanvas();
     let myContext = myCanvas.getContext("2d");
 
-    // Get the sample button element
-    let myBtn = document.getElementById("sample-button");
+    // Get the top bar elements
+    let topBar = document.getElementById("top-bar");
+    let pauseBox = document.getElementById("pause-box");
+    let helpBox = document.getElementById("help-box");
+
+    // Dimension values for top bar buttons
+    let boxSize;
 
 
-    
+
+
+    //////////////////////////
+    // Resize events
+    //////////////////////////
 
     // Every time the Resizer resizes things, do some extra
     // recaculations to position the sample button in the center
-    resizer.addResizeEvent(centerButton);
+    resizer.addResizeEvent(resizeBarButtons);
+    //resizer.addResizeEvent(positionBarButtons);
 
-    // Manual resize to ensure that our resize function is executed
-    // (could have also just called centerButton() but this will do for demonstration purposes)
+    // Manual resize to ensure that our resize functions are executed
+    // (could have also just called centerTopBar() but this will do for demonstration purposes)
     resizer.resize();
 
 
 
+    /////////////////////////////////////
+    // Resizing function definitions
+    /////////////////////////////////////
 
-    // The function for centering our sample button
-    function centerButton() {
 
-        // Get the canvas' bounding rectangle
-        let canvasRect = myCanvas.getBoundingClientRect();
+    // The function for sizing the top bar
+    function resizeBarButtons() {
 
-        // Calculate the center of the canvas
-        let canvasCenterX = canvasRect.left + (resizer.getCanvasWidth()/2);
-        let canvasCenterY = canvasRect.top + (resizer.getCanvasHeight()/2);
-        
-        // Horizontally center the button
-        myBtn.style.left = ( canvasCenterX - (myBtn.clientWidth/2) ) + "px";
+        // Box size is slightly larger than the bar (120% of height)
+        boxSize = topBar.clientHeight * 1.20;
 
-        // Vertically center the button
-        myBtn.style.top = ( canvasCenterY - (myBtn.clientHeight/2) ) + "px";
+        // Set styles
+        pauseBox.style.height = boxSize + "px";
+        pauseBox.style.width = boxSize + "px";
+
+        helpBox.style.height = boxSize + "px";
+        helpBox.style.width = boxSize + "px";
+    }
+
+    // The function for positioning the top bar
+    function positionBarButtons() {
+
+        // Put the second box a little to the right of the first box (by 1/5 of box size)
+        helpBox.style.left = boxSize * 1.20 + "px";
+
+        // Vertically center both  boxes (relative to the bar)
+        pauseBox.style.top = (topBar.clientHeight/2) - (boxSize/2) + "px";
+        helpBox.style.top = (topBar.clientHeight/2) - (boxSize/2) + "px";
     }
 
 
