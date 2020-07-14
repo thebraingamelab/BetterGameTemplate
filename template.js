@@ -63,6 +63,20 @@
     // Button events
     //////////////////////////
 
+    pauseBtn.addEventListener("click", function() { showMenu(pauseMenu); }, false);
+    resumeBtn.addEventListener("click", function() { hideMenu(pauseMenu); }, false);
+    miniHelpBtn.addEventListener("click", function() { switchMenu(pauseMenu, helpMenu); }, false);
+
+
+    helpBtn.addEventListener("click", function() { showMenu(helpMenu); }, false);
+    backBtn.addEventListener("click", function() { switchMenu(helpMenu, pauseMenu); }, false);
+
+
+    /////////////////////////////////////
+    // Helper function definitions
+    /////////////////////////////////////
+
+    // Animates a menu to pop out and remain visible
     function showMenu(menuElement) {
 
         // Show the menu
@@ -73,6 +87,7 @@
         topBar.style.display = "none";
     }
 
+    // Animates a menu to pop in and stay invisible
     function hideMenu(menuElement) {
         // Hide the menu
         menuElement.classList.remove("center-popout");
@@ -83,6 +98,8 @@
         topBar.style.display = "";
     }
 
+    // Animates the current menu to pop in and stay invisible, while the
+    // next menu pops out and remains visible
     function switchMenu(currentMenu, nextMenu) {
 
         // Hide current menu
@@ -97,22 +114,6 @@
             currentMenu.removeEventListener("animationend", showNextMenu);
         }, false);
     }
-
-    pauseBtn.addEventListener("click", function() { showMenu(pauseMenu); }, false);
-
-    resumeBtn.addEventListener("click", function() { hideMenu(pauseMenu); }, false);
-
-    miniHelpBtn.addEventListener("click", function() { switchMenu(pauseMenu, helpMenu); }, false);
-
-
-    helpBtn.addEventListener("click", function() { showMenu(helpMenu); }, false);
-
-    backBtn.addEventListener("click", function() { switchMenu(helpMenu, pauseMenu); }, false);
-
-
-    /////////////////////////////////////
-    // Resizing function definitions
-    /////////////////////////////////////
 
 
     // The function for sizing the top bar buttons
