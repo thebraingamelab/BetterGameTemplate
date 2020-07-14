@@ -24,7 +24,20 @@ body {
     position: relative;
 
     /* Set page font families */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Overpass', 'Segoe UI', monospace, sans-serif;
+}
+
+
+/* Make mouse cursor the little hand on all buttons */
+button {
+    cursor: pointer;
+}
+
+/* General class to make a 1:1 square */
+.square:before {
+    content: "";
+    float: left;
+    padding-top: 100%;
 }
 
 /* Styling for the game canvas */
@@ -45,48 +58,148 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-        
 }
 
+/* General menu buttons */
 .menu-button {
     display: block;
-    margin: auto;
-    margin-top: 5%;
+    
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 12%;
 
     width: 80%;
-    height: 10%;
+    height: 12%;
 
     color: rgb(35, 42, 78);
+    background-color: #F9F4E3;
 
     border-style: none;
     box-shadow: 5px 5px rgb(35, 42, 78);
 }
 
 .menu-button:hover {
-    background-color: lightgreen;
+    background-color: rgb(189, 219, 15);
 }
 
 .menu-button:active {
-    background-color: lightgreen;
+    background-color: rgb(189, 219, 15);
 
     box-shadow: none;
-    transform: translate(2px, 2px);
+    transform: translate(3px, 3px);
 }
 
+/* Smaller menu buttons */
+
+#mini-button-container {
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 12%;
+
+    /* Evenly space menu inline-block buttons */
+    text-align: justify;
+}
+
+/* Necessary for text-align: justify to work on every inline-block element. */
+/* Because text-align: justify works on every line except the last. */
+#mini-button-container:after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+}
+
+
+.mini-button {
+    width: 20%;
+    height: 100%;
+    display: inline-block;
+
+    color: rgb(35, 42, 78);
+    background-color: #F9F4E3;
+
+    border-style: none;
+    box-shadow: 4px 4px rgb(35, 42, 78);
+
+    background-repeat: no-repeat;
+    background-size: 70% 70%;
+    background-position: center; 
+}
+
+.mini-button svg {
+    width: 100%;
+    height: 100%;
+    fill: #0F0644;
+}
+
+.mini-button:hover {
+    background-color: rgb(189, 219, 15);
+}
+
+.mini-button:active {
+    background-color: rgb(189, 219, 15);
+
+    box-shadow: none;
+    transform: translate(3px, 3px);
+}
+
+/* The pause menu's mini-buttons */
+#music svg {
+    width: 70%;
+}
+
+#volume svg {
+    width: 70%;
+}
+
+/* The pause menu specifically */
 #pause-menu {
     height: 50%;
     width: 65%;
+
+    /* Pause menu is hidden until player actually pauses the game */
+    display: none;
 }
 
+/* The "PAUSED" banner on the menu */
 #pause-menu-label {
     width: 100%;
     height: 20%;
-    color: white;
+    color: rgb(189, 219, 15);
     position: relative;
     display: block;
 }
 
 #pause-menu-label > h1 {
+    /* Center the text within the label div */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* The help menu */
+#help-menu {
+    height: 30%;
+    width: 65%;
+
+    /* Pause menu is hidden until player actually pauses the game */
+    display: none;
+}
+
+#help-menu .menu-button {
+    height: 20%;
+}
+
+/* The "HELP" banner on the menu */
+#help-menu-label {
+    width: 100%;
+    height: 30%;
+    color: rgb(219, 7, 92);
+    position: relative;
+    display: block;
+}
+
+#help-menu-label > h1 {
     /* Center the text within the label div */
     position: absolute;
     top: 50%;
@@ -115,7 +228,7 @@ body {
 
     border-style: none;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
 }
 
 
@@ -130,31 +243,49 @@ body {
 }
 
 .bar-button > button:active{
-    transform: translate(4%, 4%);
+    transform: translate(3px, 3px);
  }
+
+ .bar-button > button > svg {
+    fill: white;
+    width: 100%;
+    height: 100%;
+}
 
 /* Pause button styling*/
 #pause-box {
-    background-color: #581652;
+    /*background-color: #581652;*/
 
     /* Far left of the bar */
     left: 0;
 }
 
 #pause {
-    background-image: url("img/pause.svg");
+    /*background-image: url("img/pause.svg");*/
+    box-shadow: 3px 3px #581652;
+    background-color: #6E1B66;
+}
+
+#pause:active {
+    box-shadow: none;
 }
 
 /* Help button styling */
 #help-box {
-    background-color: #5e031d;
+    /*background-color: #5e031d;*/
 
     /* Slightly to the right of the first box */
     transform: translate(120%, -50%)
 }
 
 #help {
-    background-image: url("img/help.svg");
+    /*background-image: url("img/help.svg");*/
+    background-color: #8C042B;
+    box-shadow: 3px 3px #5e031d;
+}
+
+#help:active {
+    box-shadow: none;
 }
 
 /* The text on the top bar (eg "LEVEL: 1") */
@@ -166,48 +297,57 @@ body {
     right: 5%;
 
     /* Vertically center the text */
-    bottom: 50%;
-    line-height: 6%;
+    top: 50%;
+    height: 100%;
+    line-height: 25%;
 }
 
 /* Media queries to set different font sizes for various screen sizes */
 @media screen and (min-height: 601px) {
     * {
-        font-size: 18px;
+        font-size: 16px;
+        letter-spacing: 3px;
     }
 
     h1 {
         font-size: 30px;
+        letter-spacing: 4px;
     }
 }
 
 @media screen and (max-height: 600px) {
     * {
-        font-size: 16px;
+        font-size: 14px;
+        letter-spacing: 2px;
     }
 
     h1 {
         font-size: 26px;
+        letter-spacing: 3px;
     }
 }
 
 @media screen and (max-height: 400px) {
     * {
-        font-size: 14px;
+        font-size: 12px;
+        letter-spacing: 1px;
     }
 
     h1 {
         font-size: 22px;
+        letter-spacing: 2px;
     }
 }
 
 @media screen and (max-height: 300px) {
     * {
         font-size: 8px;
+        letter-spacing: 0px;
     }
 
     h1 {
         font-size: 10px;
+        letter-spacing: 2px;
     }
 }
 
@@ -218,5 +358,6 @@ body {
 
     h1 {
         font-size: 8px;
+        letter-spacing: 1px;
     }
 }
