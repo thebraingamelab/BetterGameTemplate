@@ -73,11 +73,11 @@ button {
     width: 80%;
     height: 12%;
 
-    color: rgb(35, 42, 78);
+    color: rgb(15, 6, 68);
     background-color: #F9F4E3;
 
     border-style: none;
-    box-shadow: 5px 5px rgb(35, 42, 78);
+    box-shadow: 5px 5px rgb(15, 6, 68);
 }
 
 .menu-button:hover {
