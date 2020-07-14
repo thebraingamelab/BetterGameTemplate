@@ -219,8 +219,8 @@ let resizer = (function() {
         _context.scale(DPR, DPR);
 
         // Scale everything down using CSS
-        _wrapper.style.width = _currentWidth + "px";
-        _wrapper.style.height = _currentHeight + "px";
+        _wrapper.style.width = Math.round(_currentWidth) + "px";
+        _wrapper.style.height = Math.round(_currentHeight) + "px";
 
         // Position the canvas within the container according to config
         _positionCanvas();

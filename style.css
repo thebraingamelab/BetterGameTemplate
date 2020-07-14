@@ -57,7 +57,9 @@ button {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+
+    /* scale(0) hides the menu by default */
+    transform: translate(-50%, -50%) scale(0);
 }
 
 /* General menu buttons */
@@ -156,8 +158,6 @@ button {
     height: 50%;
     width: 65%;
 
-    /* Pause menu is hidden until player actually pauses the game */
-    display: none;
 }
 
 /* The "PAUSED" banner on the menu */
@@ -179,15 +179,12 @@ button {
 
 /* The help menu */
 #help-menu {
-    height: 30%;
+    height: 45%;
     width: 65%;
-
-    /* Pause menu is hidden until player actually pauses the game */
-    display: none;
 }
 
 #help-menu .menu-button {
-    height: 20%;
+    height: 14%;
 }
 
 /* The "HELP" banner on the menu */
@@ -361,3 +358,79 @@ button {
         letter-spacing: 1px;
     }
 }
+
+
+/* Go smaller to bigger, giving illusion of popping out at user */
+
+.center-popout {
+    animation: center-popout 0.25s ease forwards;
+    -webkit-animation: center-popout 0.25s ease forwards;
+}
+@keyframes center-popout {
+    from{
+        transform: translate(-50%, -50%) scale(0);
+    }
+    70%{
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    /*90% {
+        transform: translate(-50%, -50%) scale(0.9);
+    }*/
+    to{
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+@-webkit-keyframes center-popout {
+    from{
+        transform: translate(-50%, -50%) scale(0);
+    }
+    70%{
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    /*90% {
+        transform: translate(-50%, -50%) scale(0.9);
+    }*/
+    to{
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.center-popin {
+    animation: center-popin 0.25s ease forwards;
+    -webkit-animation: center-popin 0.25s ease forwards;
+}
+@keyframes center-popin {
+    from{
+        transform: translate(-50%, -50%) scale(1);
+    }
+    30%{
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    to{
+        transform: translate(-50%, -50%) scale(0);
+    }
+}
+@-webkit-keyframes center-popin {
+    from{
+        transform: translate(-50%, -50%) scale(1);
+    }
+    30%{
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    to{
+        transform: translate(-50%, -50%) scale(0);
+    }
+}
+
+/* Remove the animation to avoid vestibular motion triggers like scaling or panning large objects. */
+@media (prefers-reduced-motion) {
+    .center-popout {
+      animation: unset;
+      -webkit-animation: unset;
+    }
+
+    .center-popin {
+        animation: unset;
+        -webkit-animation: unset;
+    }
+  }
