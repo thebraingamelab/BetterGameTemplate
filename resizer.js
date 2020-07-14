@@ -236,13 +236,17 @@ let resizer = (function() {
 
     // Center the canvas within the container
     function _positionCanvas() {
+        let bodyRect, containerRect, cPageX, cPageY;
+
         // Get the requested positioning
         let position = config.canvasPosition.split(" ");
 
-        let bodyRect, containerRect, cPageX, cPageY;
+        // Determine container position style
+        let containerPosition = window.getComputedStyle(_container).getPropertyValue("position");
+
 
         // If the container is absolute, canvas is positioned relative to document body
-        if (_container.style.position === "absolute") {
+        if (containerPosition === "absolute") {
 
             // Get container coordinates relative to page (not viewport)
             bodyRect = document.body.getBoundingClientRect();
