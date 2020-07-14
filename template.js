@@ -40,7 +40,7 @@
     let helpMenu = document.getElementById("help-menu");
     let backBtn = document.getElementById("back");
 
-    // Dimension values for top bar buttons
+    // Dimension value for top bar buttons
     let boxSize;
 
 
@@ -100,9 +100,19 @@
 
     // The function for sizing the top bar buttons
     function resizeBarButtons() {
+        let barHeight, originalDisplay;
+
+        // Store display setting
+        originalDisplay = topBar.style.display;
+
+        // In case top bar isn't visible (which means clientHeight === 0),
+        // temporarily make it visible to calculate true height
+        topBar.style.display = "";
+        barHeight = topBar.clientHeight;
+        topBar.style.display = originalDisplay;
 
         // Box size is slightly larger than the bar (120% of height)
-        boxSize = topBar.clientHeight * 1.20;
+        boxSize = barHeight * 1.20;
 
         // Set styles
         pauseBox.style.height = boxSize + "px";
