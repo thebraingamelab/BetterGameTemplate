@@ -1,4 +1,8 @@
 
+/*/////////////////////////////////*/
+/* General element styles          */
+/*/////////////////////////////////*/
+
 /* Get rid of annoying automatic margins/padding, just override when needed */
 * {
     margin: 0;
@@ -33,22 +37,14 @@ button {
     cursor: pointer;
 }
 
-/* General class to make a 1:1 square */
-.square:before {
-    content: "";
-    float: left;
-    padding-top: 100%;
-}
 
-/* Styling for the game canvas */
-#game-canvas {
-    background-color: white;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
 
-/* Styling for general menus */
+/*/////////////////////////////////*/
+/* General menu styling            */
+/*/////////////////////////////////*/
+
+/* The menu box container */
+/**************************/
 .menu {
     background-color:rgb(49, 58, 109);
     z-index: 3;
@@ -63,6 +59,7 @@ button {
 }
 
 /* General menu buttons */
+/************************/
 .menu-button {
     display: block;
     
@@ -92,25 +89,7 @@ button {
 }
 
 /* Smaller menu buttons */
-
-#mini-button-container {
-    margin-left: 10%;
-    margin-right: 10%;
-    height: 12%;
-
-    /* Evenly space menu inline-block buttons */
-    text-align: justify;
-}
-
-/* Necessary for text-align: justify to work on every inline-block element. */
-/* Because text-align: justify works on every line except the last. */
-#mini-button-container:after {
-    content: "";
-    display: inline-block;
-    width: 100%;
-}
-
-
+/************************/
 .mini-button {
     width: 20%;
     height: 100%;
@@ -144,16 +123,35 @@ button {
     transform: translate(3px, 3px);
 }
 
-/* The pause menu's mini-buttons */
-#music svg {
-    width: 70%;
+/* Container for a row of mini buttons */
+/***************************************/
+.mini-button-container {
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 12%;
+
+    /* Evenly space menu inline-block buttons */
+    text-align: justify;
 }
 
-#volume svg {
-    width: 70%;
+/* Necessary for text-align: justify to work on every inline-block element. */
+/* Because text-align: justify works on every line except the last. */
+.mini-button-container:after {
+    content: "";
+    display: inline-block;
+    width: 100%;
 }
 
-/* The pause menu specifically */
+
+/*/////////////////////////////////*/
+/* Specific menu styling           */
+/*/////////////////////////////////*/
+
+
+
+/* The pause menu */
+/******************/
+
 #pause-menu {
     height: 50%;
     width: 65%;
@@ -161,6 +159,7 @@ button {
 }
 
 /* The "PAUSED" banner on the menu */
+/***********************************/
 #pause-menu-label {
     width: 100%;
     height: 20%;
@@ -177,7 +176,22 @@ button {
     transform: translate(-50%, -50%);
 }
 
+/* The pause menu's mini-buttons */
+/*********************************/
+#music svg {
+    width: 70%;
+}
+
+#volume svg {
+    width: 70%;
+}
+
+
+
+
 /* The help menu */
+/*****************/
+
 #help-menu {
     height: 45%;
     width: 65%;
@@ -188,6 +202,7 @@ button {
 }
 
 /* The "HELP" banner on the menu */
+/*********************************/
 #help-menu-label {
     width: 100%;
     height: 30%;
@@ -204,7 +219,13 @@ button {
     transform: translate(-50%, -50%);
 }
 
-/* Styling for the top bar */
+
+
+
+/*///////////////////////////////////*/
+/* Styling for the top bar elements  */
+/*///////////////////////////////////*/
+
 #top-bar {
     background-color: rgb(49, 58, 109);
     margin: auto;
@@ -215,77 +236,8 @@ button {
     z-index: 1;
 }
 
-#top-bar > .bar-button > button {
-    height: 95%;
-    width: 95%;
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    border-style: none;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
-
-
-/* Styling for general bar button elements */
-.bar-button {
-    position: absolute;
-    z-index: 2;
-
-    /* Vertically center */
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.bar-button > button:active{
-    transform: translate(3px, 3px);
- }
-
- .bar-button > button > svg {
-    fill: white;
-    width: 100%;
-    height: 100%;
-}
-
-/* Pause button styling*/
-#pause-box {
-    /*background-color: #581652;*/
-
-    /* Far left of the bar */
-    left: 0;
-}
-
-#pause {
-    /*background-image: url("img/pause.svg");*/
-    box-shadow: 3px 3px #581652;
-    background-color: #6E1B66;
-}
-
-#pause:active {
-    box-shadow: none;
-}
-
-/* Help button styling */
-#help-box {
-    /*background-color: #5e031d;*/
-
-    /* Slightly to the right of the first box */
-    transform: translate(120%, -50%)
-}
-
-#help {
-    /*background-image: url("img/help.svg");*/
-    background-color: #8C042B;
-    box-shadow: 3px 3px #5e031d;
-}
-
-#help:active {
-    box-shadow: none;
-}
-
 /* The text on the top bar (eg "LEVEL: 1") */
+/*******************************************/
 #bar-label {
     color: white;
     font-style: italic;
@@ -299,7 +251,117 @@ button {
     line-height: 25%;
 }
 
+
+/* Styling for general bar button elements */
+/*******************************************/
+.bar-button {
+    position: absolute;
+    z-index: 2;
+
+    /* Vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.bar-button > button:active{
+    transform: translate(3px, 3px);
+ }
+
+ .bar-button > button {
+    height: 95%;
+    width: 95%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    border-style: none;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.bar-button > button > svg {
+    fill: white;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+/*/////////////////////////////////*/
+/* Specific top bar button styling */
+/*/////////////////////////////////*/
+
+
+/* Pause button styling */
+/************************/
+#pause-box {
+    left: 0;
+}
+
+#pause {
+    box-shadow: 3px 3px #581652;
+    background-color: #6E1B66;
+}
+
+#pause:active {
+    box-shadow: none;
+}
+
+/* Help button styling */
+/***********************/
+#help-box {
+    /* Slightly to the right of the first box */
+    transform: translate(120%, -50%)
+}
+
+#help {
+    background-color: #8C042B;
+    box-shadow: 3px 3px #5e031d;
+}
+
+#help:active {
+    box-shadow: none;
+}
+
+
+/*/////////////////////////////////*/
+/* Misc. element styling           */
+/*/////////////////////////////////*/
+
+/* Styling for the game canvas */
+/*******************************/
+#game-canvas {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+
+/*/////////////////////////////////*/
+/* Media queries                   */
+/*/////////////////////////////////*/
+
+/* Remove the animation to avoid vestibular motion triggers like 
+/* scaling or panning large objects.                              */
+/******************************************************************/
+@media (prefers-reduced-motion) {
+    .center-popout {
+      animation: unset;
+      -webkit-animation: unset;
+    }
+
+    .center-popin {
+        animation: unset;
+        -webkit-animation: unset;
+    }
+  }
+
 /* Media queries to set different font sizes for various screen sizes */
+/**********************************************************************/
 @media screen and (min-height: 601px) {
     * {
         font-size: 16px;
@@ -360,8 +422,13 @@ button {
 }
 
 
-/* Go smaller to bigger, giving illusion of popping out at user */
 
+/*/////////////////////////////////*/
+/* Animations                      */
+/*/////////////////////////////////*/
+
+/* Go smaller to bigger, like popping out from the screen */
+/**********************************************************/
 .center-popout {
     animation: center-popout 0.25s ease forwards;
     -webkit-animation: center-popout 0.25s ease forwards;
@@ -395,6 +462,9 @@ button {
     }
 }
 
+
+/* Go bigger to smaller, like popping into the screen */
+/******************************************************/
 .center-popin {
     animation: center-popin 0.25s ease forwards;
     -webkit-animation: center-popin 0.25s ease forwards;
@@ -422,15 +492,3 @@ button {
     }
 }
 
-/* Remove the animation to avoid vestibular motion triggers like scaling or panning large objects. */
-@media (prefers-reduced-motion) {
-    .center-popout {
-      animation: unset;
-      -webkit-animation: unset;
-    }
-
-    .center-popin {
-        animation: unset;
-        -webkit-animation: unset;
-    }
-  }
