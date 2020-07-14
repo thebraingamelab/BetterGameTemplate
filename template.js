@@ -83,14 +83,31 @@
         topBar.style.display = "";
     }
 
+    function switchMenu(currentMenu, nextMenu) {
+
+        // Hide current menu
+        currentMenu.classList.remove("center-popout");
+        currentMenu.classList.add("center-popin");
+
+        // After current menu's animation ends, show next menu
+        currentMenu.addEventListener("animationend", function showNextMenu() {
+            nextMenu.classList.remove("center-popin");
+            nextMenu.classList.add("center-popout");
+
+            currentMenu.removeEventListener("animationend", showNextMenu);
+        }, false);
+    }
+
     pauseBtn.addEventListener("click", function() { showMenu(pauseMenu); }, false);
 
     resumeBtn.addEventListener("click", function() { hideMenu(pauseMenu); }, false);
 
+    miniHelpBtn.addEventListener("click", function() { switchMenu(pauseMenu, helpMenu); }, false);
+
 
     helpBtn.addEventListener("click", function() { showMenu(helpMenu); }, false);
 
-    backBtn.addEventListener("click", function() { hideMenu(helpMenu); }, false);
+    backBtn.addEventListener("click", function() { switchMenu(helpMenu, pauseMenu); }, false);
 
 
     /////////////////////////////////////
