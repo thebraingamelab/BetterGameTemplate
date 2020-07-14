@@ -304,9 +304,16 @@ let resizer = (function() {
             if (config.canvasId !== "") {
 
                 // Get the canvas/wrapper info
-                _wrapper = document.getElementById(config.wrapperId);
                 _canvas = document.getElementById(config.canvasId);
                 _context = _canvas.getContext("2d");
+
+                if (config.wrapperId !== "") {
+                    _wrapper = document.getElementById(config.wrapperId);
+                }
+                else {
+                    _wrapper = _canvas;
+                }
+                
 
                 // Set canvas width and height
                 _currentWidth = config.gameFieldWidth;

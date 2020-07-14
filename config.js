@@ -12,7 +12,7 @@ let config = {
    ** The HTML id of the canvas wrapper.
    ** The wrapper is resized while the canvas just fits the wrapper.
    **
-   ** Options: any string, or the empty string ( "" ) if not using canvas
+   ** Options: any string, or the empty string ( "" ) if not using canvas wrapper and/or canvas
    */
   wrapperId: "canvas-wrapper",
 
