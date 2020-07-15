@@ -301,8 +301,8 @@ button {
 }
 
 #pause {
-    box-shadow: 3px 3px #581652;
-    background-color: #6E1B66;
+    background-color: rgb(189, 219, 15); /*#6E1B66;*/
+    box-shadow: 3px 3px rgb(113, 131, 9);/* #581652;*/
 }
 
 #pause:active {
@@ -317,8 +317,8 @@ button {
 }
 
 #help {
-    background-color: #8C042B;
-    box-shadow: 3px 3px #5e031d;
+    background-color: rgb(219, 7, 92);/*#8C042B;*/
+    box-shadow: 3px 3px rgb(141, 5, 60)/*#5e031d;*/
 }
 
 #help:active {
