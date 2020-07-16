@@ -40,6 +40,8 @@
     let helpMenu = document.getElementById("help-menu");
     let backBtn = document.getElementById("back");
 
+    let dimmer = document.getElementById("dimmer");
+
     // Dimension value for top bar buttons
     let boxSize;
 
@@ -83,6 +85,10 @@
         menuElement.classList.remove("center-popin");
         menuElement.classList.add("center-popout");
 
+        // Dim the background
+        dimmer.classList.remove("partial-fade-out");
+        dimmer.classList.add("partial-fade-in");
+
         // Hide the top bar
         topBar.style.display = "none";
     }
@@ -93,6 +99,9 @@
         menuElement.classList.remove("center-popout");
         menuElement.classList.add("center-popin");
 
+        // Undim the background
+        dimmer.classList.remove("partial-fade-in");
+        dimmer.classList.add("partial-fade-out");
 
         // Show the top bar
         topBar.style.display = "";

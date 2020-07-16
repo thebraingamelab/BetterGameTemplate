@@ -148,6 +148,20 @@ button {
 /*/////////////////////////////////*/
 
 
+/* The div that dims the background */
+/************************************/
+
+#dimmer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    background-color: black;
+    opacity: 0;
+}
+
 
 /* The pause menu */
 /******************/
@@ -426,6 +440,38 @@ button {
 /*/////////////////////////////////*/
 /* Animations                      */
 /*/////////////////////////////////*/
+
+/* Fade in, not all the way */
+/*****************************/
+.partial-fade-in {
+    opacity: 0.75;
+    animation: fadeInOpacity 0.12s ease-in forwards;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0.75;
+	}
+}
+
+/* Fade out from partially faded state */
+/*****************************/
+.partial-fade-out {
+    opacity: 0;
+    animation: fadeOutOpacity 0.12s ease-in forwards;
+}
+
+@keyframes fadeOutOpacity {
+	0% {
+		opacity: 0.75;
+	}
+	100% {
+		opacity: 0;
+	}
+}
 
 /* Go smaller to bigger, like popping out from the screen */
 /**********************************************************/
