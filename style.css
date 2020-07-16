@@ -301,6 +301,28 @@ button {
 }
 
 
+/* The life images */
+/*******************/
+#lives {
+    position: absolute;
+    top: 130%;
+    right: 0;
+    height: 50%;
+    width: auto;
+    text-align: justify;
+}
+
+#lives img {
+    height: 100%;
+    display: inline-block;
+}
+
+#lives:after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+}
+
 
 
 /*/////////////////////////////////*/
