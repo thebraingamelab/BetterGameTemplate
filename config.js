@@ -67,5 +67,5 @@ let config = {
    gameFieldWidth: 540,
    gameFieldHeight: 960
     
-}
+};
 

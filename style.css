@@ -160,6 +160,7 @@ button {
     z-index: 1;
     background-color: black;
     opacity: 0;
+    pointer-events: none;
 }
 
 
@@ -308,13 +309,16 @@ button {
     top: 130%;
     right: 0;
     height: 50%;
-    width: auto;
+    width: 30%;
     text-align: justify;
 }
 
-#lives img {
+#lives svg {
     height: 100%;
+    width: 30%;
     display: inline-block;
+
+    fill: red;
 }
 
 #lives:after {
@@ -349,12 +353,12 @@ button {
 /***********************/
 #help-box {
     /* Slightly to the right of the first box */
-    transform: translate(120%, -50%)
+    transform: translate(120%, -50%);
 }
 
 #help {
     background-color: rgb(219, 7, 92);/*#8C042B;*/
-    box-shadow: 3px 3px rgb(141, 5, 60)/*#5e031d;*/
+    box-shadow: 3px 3px rgb(141, 5, 60);/*#5e031d;*/
 }
 
 #help:active {
@@ -468,6 +472,7 @@ button {
 .partial-fade-in {
     opacity: 0.75;
     animation: fadeInOpacity 0.12s ease-in forwards;
+    -webkit-animation: fadeInOpacity 0.12s ease-in forwards;
 }
 
 @keyframes fadeInOpacity {
@@ -484,6 +489,7 @@ button {
 .partial-fade-out {
     opacity: 0;
     animation: fadeOutOpacity 0.12s ease-in forwards;
+    -webkit-animation: fadeOutOpacity 0.12s ease-in forwards;
 }
 
 @keyframes fadeOutOpacity {
@@ -491,7 +497,7 @@ button {
 		opacity: 0.75;
 	}
 	100% {
-		opacity: 0;
+        opacity: 0;
 	}
 }
 
