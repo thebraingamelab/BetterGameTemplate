@@ -73,6 +73,18 @@
         <!-- Big transparent box for dimming the background while in a menu -->
         <div id="dimmer"></div>
 
+        <!-- Menu that notifies if a button is not yet implemented -->
+        <div class="menu" id="not-implemented-menu">
+            <div id="not-implemented-label">
+                <h1>SORRY!</h1>
+                <p>This button has not yet been implemented.</p>
+            </div>
+
+            <button id="not-implemented-back" class="menu-button">
+                <h2>BACK</h2>
+            </button>
+        </div>
+
         <!-- Top menu -->
         <div id="top-bar">
 
@@ -116,10 +128,10 @@
             </button>
 
             <div class="mini-button-container">
-                <button id="music" class="mini-button">
+                <button id="music-mini" class="mini-button">
                     <svg><use href="#music-note" xlink:href="#music-note"></use></svg>
                 </button>
-                <button id="volume" class="mini-button">
+                <button id="volume-mini" class="mini-button">
                     <svg><use href="#volume-icon" xlink:href="#volume-icon"></use></svg>
                 </button>
                 <button id="help-mini" class="mini-button">
@@ -142,7 +154,7 @@
             <button id="report-a-bug" class="menu-button">
                 <h2>REPORT A BUG</h2>
             </button>
-            <button id="back" class="menu-button">
+            <button id="help-back" class="menu-button">
                 <h2>BACK</h2>
             </button>
 

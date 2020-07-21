@@ -32,9 +32,10 @@ body {
 }
 
 
-/* Make mouse cursor the little hand on all buttons */
+/* Make mouse cursor the little hand on all buttons, and remove outline*/
 button {
     cursor: pointer;
+    outline: none;
 }
 
 
@@ -164,6 +165,40 @@ button {
 }
 
 
+/* The menu for when something is not implemented yet */
+/******************************************************/
+#not-implemented-menu {
+    height: 30%;
+    width: 65%;
+}
+
+/* The "SORRY" banner on the menu */
+/***********************************/
+#not-implemented-label {
+    width: 100%;
+    color: rgb(189, 219, 15);
+    position: relative;
+    display: block;
+    text-align: center;
+    padding-top: 5%;
+    margin-bottom: 15%;
+}
+
+#not-implemented-label > h1 {
+    margin-bottom: 5%;
+}
+
+#not-implemented-label > p {
+    letter-spacing: 0px;
+}
+
+/* The not implemented menu's buttons */
+/**************************************/
+#not-implemented-back {
+    height: 20%;
+}
+
+
 /* The pause menu */
 /******************/
 
@@ -193,11 +228,11 @@ button {
 
 /* The pause menu's mini-buttons */
 /*********************************/
-#music svg {
+#music-mini svg {
     width: 70%;
 }
 
-#volume svg {
+#volume-mini svg {
     width: 70%;
 }
 

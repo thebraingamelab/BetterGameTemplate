@@ -33,26 +33,6 @@ let resizer = (function() {
 
 
 
-    // Removes an element by replacing it with the last element,
-    // and then shortens the array
-    function _mutableRemoveIndex(array, index) {
-
-        if (index >= array.length) {
-            console.error('ERROR: mutableRemoveIndex: index is out of range');
-            return;
-        }
-    
-        if (array.length <= 0) {
-            console.error('ERROR: mutableRemoveIndex: empty array');
-            return;
-        }
-    
-        array[index] = array[array.length-1];
-        array[array.length-1] = undefined;
-    
-        array.length = array.length-1;
-    }
-
     // Get left offset of element
     function _getOffsetLeft(elem) {
         let offsetLeft = 0;
@@ -214,11 +194,13 @@ let resizer = (function() {
             }
 
             // For high-DPI display, increase the actual size of the canvas
-            _canvas.width = Math.round(config.gameFieldWidth * DPR);
-            _canvas.height = Math.round(config.gameFieldHeight * DPR);
+            // THIS WAS CAUSING SLOW PERFORMANCE ON DEVICES WITH HIGH DPR VALUES
+
+            //_canvas.width = Math.round(config.gameFieldWidth * DPR);
+            //_canvas.height = Math.round(config.gameFieldHeight * DPR);
 
             // Ensure all drawing operations are scaled
-            _context.scale(DPR, DPR);
+            //_context.scale(DPR, DPR);
 
             // Scale everything down using CSS
             _wrapper.style.width = Math.round(_currentWidth) + "px";
@@ -314,14 +296,6 @@ let resizer = (function() {
                 _canvas = document.getElementById(config.canvasId);
                 _context = _canvas.getContext("2d");
 
-                if (config.wrapperId !== "") {
-                    _wrapper = document.getElementById(config.wrapperId);
-                }
-                else {
-                    _wrapper = _canvas;
-                }
-                
-
                 // Set canvas width and height
                 _currentWidth = config.gameFieldWidth;
                 _currentHeight = config.gameFieldHeight;
@@ -329,9 +303,18 @@ let resizer = (function() {
                 _canvas.width = _currentWidth;
                 _canvas.height = _currentHeight;
 
-                // The wrapper is resized while the canvas just fits to the wrapper
-                _canvas.style.width = "100%";
-                _canvas.style.height = "100%";
+
+                // Check if wrapper is being used
+                if (config.wrapperId !== "") {
+                    _wrapper = document.getElementById(config.wrapperId);
+
+                    // The wrapper is resized while the canvas just fits to the wrapper
+                    _canvas.style.width = "100%";
+                    _canvas.style.height = "100%";
+                }
+                else {
+                    _wrapper = _canvas;
+                }
                 
                 // Wrapper must be absolutely positioned to position it correctly within container
                 _wrapper.style.position = "absolute";
@@ -417,7 +400,10 @@ let resizer = (function() {
 
         // If i is within the array length, we found the function to remove
         if (i < _numResizeEvents) {
-            _mutableRemoveIndex(_resizeEvents, i);
+            _resizeEvents[i] = _resizeEvents[_resizeEvents.length-1];
+            _resizeEvents[_resizeEvents.length-1] = undefined;
+        
+            _resizeEvents.length = _resizeEvents.length-1;
         }
     }
 

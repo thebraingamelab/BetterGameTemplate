@@ -18,9 +18,7 @@
     // Variable declarations
     //////////////////////////
 
-    // Grab some important values from the resizer    
-    let myContainer = resizer.getContainer();
-
+    // Grab some important values from the resizer
     let myCanvas = resizer.getCanvas();
     let myContext = myCanvas.getContext("2d");
 
@@ -35,10 +33,20 @@
     // Menu elements
     let pauseMenu = document.getElementById("pause-menu");
     let resumeBtn = document.getElementById("resume");
+    let restartBtn = document.getElementById("restart");
+    let exitBtn = document.getElementById("exit");
+
+    let miniMusicBtn = document.getElementById("music-mini");
+    let miniVolumeBtn = document.getElementById("volume-mini");
     let miniHelpBtn = document.getElementById("help-mini");
 
     let helpMenu = document.getElementById("help-menu");
-    let backBtn = document.getElementById("back");
+    let helpBackBtn = document.getElementById("help-back");
+    let reportBtn = document.getElementById("report-a-bug");
+    let tutorialBtn = document.getElementById("tutorial");
+
+    let notImplementedMenu = document.getElementById("not-implemented-menu");
+    let notImplementedBackBtn = document.getElementById("not-implemented-back");
 
     let dimmer = document.getElementById("dimmer");
 
@@ -66,17 +74,36 @@
     //////////////////////////
 
     pauseBtn.addEventListener("click", function() { showMenu(pauseMenu); }, false);
+    
     resumeBtn.addEventListener("click", function() { hideMenu(pauseMenu); }, false);
+    restartBtn.addEventListener("click", pauseToNotImplemented, false);
+    exitBtn.addEventListener("click", pauseToNotImplemented, false);
+
+    miniMusicBtn.addEventListener("click", pauseToNotImplemented, false);
+    miniVolumeBtn.addEventListener("click", pauseToNotImplemented, false);
     miniHelpBtn.addEventListener("click", function() { switchMenu(pauseMenu, helpMenu); }, false);
 
 
     helpBtn.addEventListener("click", function() { showMenu(helpMenu); }, false);
-    backBtn.addEventListener("click", function() { switchMenu(helpMenu, pauseMenu); }, false);
+    reportBtn.addEventListener("click", helpToNotImplemented, false);
+    tutorialBtn.addEventListener("click", helpToNotImplemented, false);
+    helpBackBtn.addEventListener("click", function() { switchMenu(helpMenu, pauseMenu); }, false);
 
+    notImplementedBackBtn.addEventListener("click", function() { switchMenu(notImplementedMenu, pauseMenu); }, false);
 
     /////////////////////////////////////
     // Helper function definitions
     /////////////////////////////////////
+
+    // Specifically switches from help menu to not implemented menu
+    function helpToNotImplemented() {
+        switchMenu(helpMenu, notImplementedMenu);
+    }
+
+    // Specifically switches from pause menu to not implemented menu
+    function pauseToNotImplemented() {
+        switchMenu(pauseMenu, notImplementedMenu);
+    }
 
     // Animates a menu to pop out and remain visible
     function showMenu(menuElement) {
