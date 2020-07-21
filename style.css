@@ -168,7 +168,6 @@ button {
 /* The menu for when something is not implemented yet */
 /******************************************************/
 #not-implemented-menu {
-    height: 30%;
     width: 65%;
 }
 
@@ -195,7 +194,7 @@ button {
 /* The not implemented menu's buttons */
 /**************************************/
 #not-implemented-back {
-    height: 20%;
+    height: 3em;
 }
 
 
