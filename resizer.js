@@ -196,11 +196,13 @@ let resizer = (function() {
             // For high-DPI display, increase the actual size of the canvas
             // THIS WAS CAUSING SLOW PERFORMANCE ON DEVICES WITH HIGH DPR VALUES
 
-            //_canvas.width = Math.round(config.gameFieldWidth * DPR);
-            //_canvas.height = Math.round(config.gameFieldHeight * DPR);
+            if (config.scaleByDPR) {
+                _canvas.width = Math.round(config.gameFieldWidth * DPR);
+                _canvas.height = Math.round(config.gameFieldHeight * DPR);
 
-            // Ensure all drawing operations are scaled
-            //_context.scale(DPR, DPR);
+                // Ensure all drawing operations are scaled
+                _context.scale(DPR, DPR);
+            }
 
             // Scale everything down using CSS
             _wrapper.style.width = Math.round(_currentWidth) + "px";

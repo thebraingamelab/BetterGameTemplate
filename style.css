@@ -54,9 +54,10 @@ button {
     position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
 
-    /* scale(0) hides the menu by default */
-    transform: translate(-50%, -50%) scale(0);
+    /* Hide menu by default */
+    display: none;
 }
 
 /* General menu buttons */
@@ -160,8 +161,10 @@ button {
     width: 100%;
     z-index: 1;
     background-color: black;
-    opacity: 0;
     pointer-events: none;
+
+    /* Hidden by default */
+    display: none;
 }
 
 
@@ -522,8 +525,8 @@ button {
 /*****************************/
 .partial-fade-out {
     opacity: 0;
-    animation: fadeOutOpacity 0.12s ease-in forwards;
-    -webkit-animation: fadeOutOpacity 0.12s ease-in forwards;
+    animation: fadeOutOpacity 0.12s ease-in;
+    -webkit-animation: fadeOutOpacity 0.12s ease-in;
 }
 
 @keyframes fadeOutOpacity {
@@ -574,8 +577,8 @@ button {
 /* Go bigger to smaller, like popping into the screen */
 /******************************************************/
 .center-popin {
-    animation: center-popin 0.25s ease forwards;
-    -webkit-animation: center-popin 0.25s ease forwards;
+    animation: center-popin 0.25s ease;
+    -webkit-animation: center-popin 0.25s ease;
 }
 @keyframes center-popin {
     from{

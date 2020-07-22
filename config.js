@@ -51,6 +51,15 @@ let config = {
     stretchToFit: false,
 
     /*
+    ** Whether the canvas drawing operations should scale to look sharper
+    ** on retina displays (which have high device pixel ratios (DPRs).
+    ** WARNGING: may cause a decrease in performance.
+    **
+    ** Options: true, false
+    */
+   scaleByDPR: false,
+
+    /*
     ** The orientation of the game (applicable to canvas only).
     **
     ** Options: "portrait", "landscape", "both"
