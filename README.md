@@ -1,9 +1,9 @@
-# Resizer
-Canvas resizing library + template
+# Better Game Template
+Includes game UI and responsive canvas resizing library
 <br/><br/><br/>
 
 
-# Documentation - Useful Functions
+# Resizer Documentation - Useful Functions
 
 ### `resizer.init()`
 Initializes the Resizer for use. It also performs one execution of resizing code if necessary, and begins the DOM 'resize' event listener.
