@@ -10,9 +10,6 @@ let resizer = (function() {
     // Private variables
 
     // Figure out if user device is android or ios
-    //const _ua = navigator.userAgent.toLowerCase();
-    //const _android = _ua.indexOf('android') > -1;
-    //const _ios = /ipad|iphone|ipod/i.test(_ua) && !window.MSStream;
     let _isInitialized = false;
     let _resizeEvents = [];
     let _numResizeEvents = 0;
@@ -25,7 +22,7 @@ let resizer = (function() {
     let _paddingLeft, _paddingRight, _paddingTop, _paddingBottom;
 
 
-    // Exposed variables
+    // Private (exposed) variables
     let _container, _canvas, _wrapper;
     let _currentHeight, _currentWidth;
     let _sizeMode;

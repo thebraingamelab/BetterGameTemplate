@@ -58,5 +58,88 @@ Only applicable if using a canvas. Returns the actual canvas width after it has 
 
 ### `resizer.getCanvasHeight()`
 Only applicable if using a canvas. Returns the actual canvas height after it has been resized.
+<br/><br/><br/>
+
+
+# Template Documentation - Useful Properties
+
+### `template.menus`
+An object containing references to the following menu elements:
+`{
+    paused,
+    help,
+    notImplemented,
+    confirm
+}`
 <br/>
 
+### `template.menuButtons`
+An object containing references to the following menu button elements (not including top bar buttons):
+`{
+    restart,
+    resume,
+    exit,
+    music,
+    volume,
+    help,
+    
+    tutorial,
+    report,
+    back
+}`
+<br/><br/><br/>
+
+
+# Template Documentation - Useful Functions
+
+### `template.init()`
+Initializes the template for use by sizing the top bar buttons and setting the necessary event listeners for each button.
+<br/>
+
+### `template.resizeBarButtons()`
+Calculates and applies style changes to resize the top bar buttons to their correct size.
+<br/>
+
+### `template.addConfirm(button, confirmText, callback)`
+Shows a confirmation menu whenever the button in question is clicked. The menu will show up with two options: a button that says "YES, [confirmText goes here]", and a button that allows the user to go back to the previous menu. Upon clicking the "YES" button, the callback will be executed.
+<br/>
+
+### `template.removeNotImplemented(button)`
+By default, most buttons show a menu that says "SORRY! This button has not yet been implemented." Use this function to remove that menu, for when it is time to implement the button.
+<br/>
+
+### `template.goToBGL()`
+Redirects the user to [thebraingamelab.org](https://thebraingamelab.org/).
+<br/>
+
+### `template.showMenu(menuElement)`
+Dims the background, hides the top bar, and shows the menu given.
+<br/>
+
+### `template.hideMenu(menuElement)`
+Undims the background, shows the top bar, and hides the menu given.
+<br/>
+
+### `template.switchMenu(currentMenu, nextMenu)`
+Switches from one menu to another. In other words, hides the `currentMenu`, and shows `nextMenu`. The background remains dimmed, and the top bar remains hidden.
+<br/>
+
+### `template.resizeBarButtons()`
+Calculates and applies style changes to resize the top bar buttons to their correct size.
+<br/>
+
+### `template.setIcon(button, svgId)`
+Sets the SVG icon of the button element given to the SVG icon with an id of `svgId`.
+<br/>
+
+### `template.pause()`
+Sets the template's `paused` boolean to true.
+<br/>
+
+### `template.unpause()`
+Sets the template's `paused` boolean to false.
+<br/>
+
+### `template.isPaused()`
+Returns the boolean value of the template's `paused` variable.
+<br/>

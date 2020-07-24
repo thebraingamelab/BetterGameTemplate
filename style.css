@@ -168,6 +168,39 @@ button {
 }
 
 
+/* Menu for confirming button clicks */
+/*************************************/
+#confirmation-menu {
+    width: 65%;
+}
+
+
+
+/* The "ARE YOU SURE?" banner on the menu */
+/******************************************/
+#confirmation-label {
+    width: 100%;
+    color: rgb(189, 219, 15);
+    position: relative;
+    display: block;
+
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+#confirmation-label > h1 {
+    /* Center the text within the label div */
+    text-align: center;
+}
+
+
+/* The confirmation menu's buttons */
+/**************************************/
+#confirmation-yes, #confirmation-back {
+    height: 3em;
+}
+
+
 /* The menu for when something is not implemented yet */
 /******************************************************/
 #not-implemented-menu {

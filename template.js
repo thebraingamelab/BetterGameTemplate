@@ -1,112 +1,94 @@
-// This IIFE (aka closure) is for style preference only; it helps to prevent
-// things inside from polluting the global namespace. It is completely optional.
-
-// The leading semicolon is also a defensive measure when concatenating several
-// JavaScript files into one.
-;(function () {
-
-    // This line enables 'strict mode'. It helps you to write cleaner code,
-    // like preventing you from using undeclared variables.
+let template = (function() {
     "use strict";
 
-    // Initialize the resizer
-    resizer.init();
+    // Private variables
+    let _initialized = false;
+    const HTML = {
 
+        // Top bar elements
+        topBar: document.getElementById("top-bar"),
+        pauseBox: document.getElementById("pause-box"),
+        helpBox: document.getElementById("help-box"),
+        pauseBtn: document.getElementById("pause"),
+        helpBtn: document.getElementById("help"),
+        allTopBtns: document.querySelectorAll(".bar-button"),
 
+        // Pause menu elements
+        pauseMenu: document.getElementById("pause-menu"),
+        resumeBtn: document.getElementById("resume"),
+        restartBtn: document.getElementById("restart"),
+        exitBtn: document.getElementById("exit"),
+        miniMusicBtn: document.getElementById("music-mini"),
+        miniVolumeBtn: document.getElementById("volume-mini"),
+        miniHelpBtn: document.getElementById("help-mini"),
 
-    //////////////////////////
-    // Variable declarations
-    //////////////////////////
+        // Help menu elements
+        helpMenu: document.getElementById("help-menu"),
+        helpBackBtn: document.getElementById("help-back"),
+        reportBtn: document.getElementById("report-a-bug"),
+        tutorialBtn: document.getElementById("tutorial"),
 
-    // Grab some important values from the resizer
-    let myCanvas = resizer.getCanvas();
-    let myContext = myCanvas.getContext("2d");
+        // Not implemented menu elements
+        notImplementedMenu: document.getElementById("not-implemented-menu"),
+        notImplementedBackBtn: document.getElementById("not-implemented-back"),
 
-    // Get the top bar elements
-    let topBar = document.getElementById("top-bar");
-    let pauseBox = document.getElementById("pause-box");
-    let helpBox = document.getElementById("help-box");
+        // Confirmation menu elements
+        confirmationMenu: document.getElementById("confirmation-menu"),
+        confirmationYesBtn: document.getElementById("confirmation-yes"),
+        confirmationBackBtn: document.getElementById("confirmation-back"),
 
-    let pauseBtn = document.getElementById("pause");
-    let helpBtn = document.getElementById("help");
+        // The background dimmer
+        dimmer: document.getElementById("dimmer")
 
-    // Menu elements
-    let pauseMenu = document.getElementById("pause-menu");
-    let resumeBtn = document.getElementById("resume");
-    let restartBtn = document.getElementById("restart");
-    let exitBtn = document.getElementById("exit");
-
-    let miniMusicBtn = document.getElementById("music-mini");
-    let miniVolumeBtn = document.getElementById("volume-mini");
-    let miniHelpBtn = document.getElementById("help-mini");
-
-    let helpMenu = document.getElementById("help-menu");
-    let helpBackBtn = document.getElementById("help-back");
-    let reportBtn = document.getElementById("report-a-bug");
-    let tutorialBtn = document.getElementById("tutorial");
-
-    let notImplementedMenu = document.getElementById("not-implemented-menu");
-    let notImplementedBackBtn = document.getElementById("not-implemented-back");
-
-    let dimmer = document.getElementById("dimmer");
-
-    // Dimension value for top bar buttons
-    let boxSize;
-
-
-
-
-    //////////////////////////
-    // Resize events
-    //////////////////////////
-
-    // Every time the Resizer resizes things, do some extra
-    // recaculations to position the sample button in the center
-    resizer.addResizeEvent(resizeBarButtons);
-
-    // Manual resize to ensure that our resize functions are executed
-    // (could have also just called resizerBarButtons() but this will do for demonstration purposes)
-    resizer.resize();
-
-
-    //////////////////////////
-    // Button events
-    //////////////////////////
-
-    pauseBtn.addEventListener("click", function() { showMenu(pauseMenu); }, false);
+    };
     
-    resumeBtn.addEventListener("click", function() { hideMenu(pauseMenu); }, false);
-    restartBtn.addEventListener("click", pauseToNotImplemented, false);
-    exitBtn.addEventListener("click", pauseToNotImplemented, false);
 
-    miniMusicBtn.addEventListener("click", pauseToNotImplemented, false);
-    miniVolumeBtn.addEventListener("click", pauseToNotImplemented, false);
-    miniHelpBtn.addEventListener("click", function() { switchMenu(pauseMenu, helpMenu); }, false);
+    // Private (exposed) variables
+    let _paused = false;
+    let _topBarBoxSize = 0;
+
+    // Functions
+    function _init() {
+
+        if (!_initialized) {
+            _initialized = true;
+            
+            // Button events
+            HTML.pauseBtn.addEventListener("click", function() { _showMenu(HTML.pauseMenu); }, false);
+            
+            HTML.resumeBtn.addEventListener("click", function() { _hideMenu(HTML.pauseMenu); }, false);
+            HTML.restartBtn.addEventListener("click", _pauseToNotImplemented, false);
+            HTML.exitBtn.addEventListener("click", _pauseToNotImplemented, false);
+
+            HTML.miniMusicBtn.addEventListener("click", _pauseToNotImplemented, false);
+            HTML.miniVolumeBtn.addEventListener("click", _pauseToNotImplemented, false);
+            HTML.miniHelpBtn.addEventListener("click", function() { _switchMenu(HTML.pauseMenu, HTML.helpMenu); }, false);
 
 
-    helpBtn.addEventListener("click", function() { showMenu(helpMenu); }, false);
-    reportBtn.addEventListener("click", helpToNotImplemented, false);
-    tutorialBtn.addEventListener("click", helpToNotImplemented, false);
-    helpBackBtn.addEventListener("click", function() { switchMenu(helpMenu, pauseMenu); }, false);
+            HTML.helpBtn.addEventListener("click", function() { _showMenu(HTML.helpMenu); }, false);
+            HTML.reportBtn.addEventListener("click", _helpToNotImplemented, false);
+            HTML.tutorialBtn.addEventListener("click", _helpToNotImplemented, false);
+            HTML.helpBackBtn.addEventListener("click", function() { _switchMenu(HTML.helpMenu, HTML.pauseMenu); }, false);
 
-    notImplementedBackBtn.addEventListener("click", function() { switchMenu(notImplementedMenu, pauseMenu); }, false);
+            HTML.notImplementedBackBtn.addEventListener("click", function() { _switchMenu(HTML.notImplementedMenu, HTML.pauseMenu); }, false);
 
-    /////////////////////////////////////
-    // Helper function definitions
-    /////////////////////////////////////
+            _resizeBarButtons();
+        }
+
+    }
 
     // Specifically switches from help menu to not implemented menu
-    function helpToNotImplemented() {
-        switchMenu(helpMenu, notImplementedMenu);
+    function _helpToNotImplemented() {
+        _switchMenu(HTML.helpMenu, HTML.notImplementedMenu);
     }
 
     // Specifically switches from pause menu to not implemented menu
-    function pauseToNotImplemented() {
-        switchMenu(pauseMenu, notImplementedMenu);
+    function _pauseToNotImplemented() {
+        _switchMenu(HTML.pauseMenu, HTML.notImplementedMenu);
     }
 
     // Animates a menu to pop out and remain visible
-    function showMenu(menuElement) {
+    function _showMenu(menuElement) {
 
         // Show the menu
         menuElement.style.display = "block";
@@ -114,16 +96,16 @@
         menuElement.classList.add("center-popout");
 
         // Dim the background
-        dimmer.classList.remove("partial-fade-out");
-        dimmer.classList.add("partial-fade-in");
-        dimmer.style.display = "block";
+        HTML.dimmer.classList.remove("partial-fade-out");
+        HTML.dimmer.classList.add("partial-fade-in");
+        HTML.dimmer.style.display = "block";
 
         // Hide the top bar
-        topBar.style.display = "none";
+        HTML.topBar.style.display = "none";
     }
 
     // Animates a menu to pop in and stay invisible
-    function hideMenu(menuElement) {
+    function _hideMenu(menuElement) {
         // Hide the menu
         menuElement.classList.remove("center-popout");
         menuElement.classList.add("center-popin");
@@ -134,26 +116,27 @@
         }, false);
 
         // Undim the background
-        dimmer.classList.remove("partial-fade-in");
-        dimmer.classList.add("partial-fade-out");
+        HTML.dimmer.classList.remove("partial-fade-in");
+        HTML.dimmer.classList.add("partial-fade-out");
 
-        dimmer.addEventListener("animationend", function hideDimmer() {
-            dimmer.style.display = "none";
-            dimmer.removeEventListener("animationend", hideDimmer);
+        HTML.dimmer.addEventListener("animationend", function hideDimmer() {
+            HTML.dimmer.style.display = "none";
+            HTML.dimmer.removeEventListener("animationend", hideDimmer);
         }, false);
 
         // Show the top bar
-        topBar.style.display = "block";
+        HTML.topBar.style.display = "block";
     }
 
     // Animates the current menu to pop in and stay invisible, while the
     // next menu pops out and remains visible
-    function switchMenu(currentMenu, nextMenu) {
+    function _switchMenu(currentMenu, nextMenu) {
 
         // Hide current menu
         currentMenu.classList.remove("center-popout");
         currentMenu.classList.add("center-popin");
 
+        // Set display: none after animation pops it away
         currentMenu.addEventListener("animationend", function hideCurrent() {
             currentMenu.style.display = "none";
             currentMenu.removeEventListener("animationend", hideCurrent);
@@ -169,80 +152,156 @@
         }, false);
     }
 
-
     // The function for sizing the top bar buttons
-    function resizeBarButtons() {
+    function _resizeBarButtons() {
+        const BUTTON_SIZE_FACTOR = 1.20;
         let barHeight, originalDisplay;
 
         // Store display setting
-        originalDisplay = topBar.style.display;
+        originalDisplay = HTML.topBar.style.display;
 
         // In case top bar isn't visible (which means clientHeight === 0),
         // temporarily make it visible to calculate true height
-        topBar.style.display = "block";
-        barHeight = topBar.clientHeight;
-        topBar.style.display = originalDisplay;
+        HTML.topBar.style.display = "block";
+        barHeight = HTML.topBar.clientHeight;
+        HTML.topBar.style.display = originalDisplay;
 
         // Box size is slightly larger than the bar (120% of height)
-        boxSize = barHeight * 1.20;
+        _topBarBoxSize = barHeight * BUTTON_SIZE_FACTOR;
 
         // Set styles
-        pauseBox.style.height = boxSize + "px";
-        pauseBox.style.width = boxSize + "px";
-
-        helpBox.style.height = boxSize + "px";
-        helpBox.style.width = boxSize + "px";
+        for (let i = HTML.allTopBtns.length-1; i >= 0; i--) {
+            HTML.allTopBtns[i].style.height = _topBarBoxSize + "px";
+            HTML.allTopBtns[i].style.width = _topBarBoxSize + "px";
+        }
     }
 
+    // Remove not implemented event listeners on a button
+    function _removeNotImplemented(button) {
+        button.removeEventListener("click", _pauseToNotImplemented);
+        button.removeEventListener("click", _helpToNotImplemented);
+    }
 
+    // Search an element's parents, grandparents, etc. for a menu
+    function _findParentMenu(child) {
+        
+        // Only begin search if there is a parent
+        if (child && child.parentElement) {
 
-
-
-    // Example helper function to do an arbitrary thing with the canvas
-    let doSomething = (function() {
-
-        // Get the game field width/height.
-        // Note that the logical ingame width/height will always be as they are in config.js
-        // (in this example it is 540x960). Logical ingame pixels automatically scale to
-        // physical canvas style size.
-        const GAME_WIDTH = resizer.getGameWidth();
-        const GAME_HEIGHT = resizer.getGameHeight();
-
-        // 10px margin on all sides
-        const margin = 10;
-
-        // The number of frames after which to change colors
-        const CHANGE_FRAME = 120;
-
-        // The number of frames passed so far
-        let frames = 0;
-
-        // The color to fill
-        let color;
-
-        return function() {
-            // 1 frame has passed
-            frames = (frames+1) % CHANGE_FRAME;
-
-            // Grab a random color every 120 frames (approx. 2 seconds, ideally)
-            if (frames === 0) {
-                color = "#" + Math.floor( Math.random()*1000000 );
+            // If the parent is a menu, return it
+            if (child.parentElement.classList.contains("menu")) {
+                return child.parentElement;
             }
 
-            // Set the color
-            myContext.fillStyle = color;
+            // Otherewise, continue search up the tree
+            else {
+                _findParentMenu(child.parentElement);
+            }
 
-            // Color within the margins
-            myContext.fillRect(margin, margin, GAME_WIDTH-(margin*2), GAME_HEIGHT-(margin*2));
+        }
 
-            // Execute this function again in the next frame
-            window.requestAnimationFrame(doSomething);
-        };
-    })();
+        // No parent, return null
+        else {
+            console.log("Error: no parent is a menu.");
+            return null;
+        }
 
-    // Begin the arbitrary thing example loop
-    doSomething();
+    }
+
+    // Add a confirmation menu to a button
+    function _addConfirm(button, confirmText, callback) {
+        
+        // Keep going up the parent tree until the original menu is found
+        let originalMenu = _findParentMenu(button);
+
+        // Add click event to the button that takes user to confirmation menu with correct settings
+        button.addEventListener("click", function () {
+            _switchMenu(originalMenu, HTML.confirmationMenu);
+
+            // Change confirmation text (ie "YES, RESTART");
+            HTML.confirmationYesBtn.firstElementChild.textContent = "YES, " + confirmText.toUpperCase();
+
+            // Add click event to confirmation button
+            HTML.confirmationYesBtn.addEventListener("click", function confirmed() { 
+
+                _hideMenu(HTML.confirmationMenu);
+
+                HTML.confirmationMenu.addEventListener("animationend", function executeCallback() {
+                    HTML.confirmationMenu.removeEventListener("animationend", executeCallback);
+                    callback();
+                }, false);
 
 
-// Close and execute the IIFE here
+                HTML.confirmationYesBtn.removeEventListener("click", confirmed);
+            }, false);
+
+            // Add click event to back button
+            HTML.confirmationBackBtn.addEventListener("click", function denied() { 
+                _switchMenu(HTML.confirmationMenu, originalMenu); 
+                HTML.confirmationBackBtn.removeEventListener("click", denied);
+            }, false);
+        }, false);
+    }
+
+    // Navigate to thebraingamelab.org
+    function _goToBGL() {
+        window.location.assign("https://thebraingamelab.org/");
+    }
+
+    // Mutators
+    function _setIcon(button, svgId) {
+        let use = button.firstElementChild.firstElementChild;
+        use.setAttribute("href", "#"+svgId);
+    }
+
+    function _pause() {
+        _paused = true;
+    }
+
+    function _unpause() {
+        _paused = false;
+    }
+
+    // Accessors
+    function _isPaused() {
+        return _paused;
+    }
+
+    return {
+        init: _init,
+        resizeBarButtons: _resizeBarButtons,
+        addConfirm: _addConfirm,
+        removeNotImplemented: _removeNotImplemented,
+        goToBGL: _goToBGL,
+
+        showMenu: _showMenu,
+        hideMenu: _hideMenu,
+        switchMenu: _switchMenu,
+
+        setIcon: _setIcon,
+        pause: _pause,
+        unpause: _unpause,
+
+        isPaused: _isPaused,
+
+        menus: {
+            paused: HTML.pauseMenu,
+            help: HTML.helpMenu,
+            notImplemented: HTML.notImplementedMenu,
+            confirm: HTML.confirmationMenu
+        },
+
+        menuButtons: {
+            restart: HTML.restartBtn,
+            resume: HTML.resumeBtn,
+            exit: HTML.exitBtn,
+            music: HTML.miniMusicBtn,
+            volume: HTML.miniVolumeBtn,
+            help: HTML.miniHelpBtn,
+            
+            tutorial: HTML.tutorialBtn,
+            report: HTML.reportBtn,
+            back: HTML.helpBackBtn
+        }
+    };
 })();
