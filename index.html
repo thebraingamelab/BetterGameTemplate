@@ -59,11 +59,15 @@
     <!-- Resizer files -->
     <script src="Resizer/config.js" defer></script>
     <script src="Resizer/resizer.js" defer></script>
+
+    <!-- UI Template utility object -->
     <script src="template.js" defer></script>
 
 
     <!-- Your JS/CSS files go here -->
-    <!-- Note the defer attribute is necessary to ensure sequential execution of the scripts -->
+    <!-- Note a defer attribute is necessary to ensure sequential execution of the scripts -->
+    <!-- eg if example.js uses template or Resizer functions, it must have the defer attribute
+         and come *after* the Resizer/template script tags in order for those functions to be defined. -->
 
     <link href="style.css" rel="stylesheet">
 
