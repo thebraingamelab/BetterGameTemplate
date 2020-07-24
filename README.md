@@ -65,17 +65,17 @@ Only applicable if using a canvas. Returns the actual canvas height after it has
 
 ### `template.menus`
 An object containing references to the following menu elements:
-`{
+```{
     paused,
     help,
     notImplemented,
     confirm
-}`
+}```
 <br/>
 
 ### `template.menuButtons`
 An object containing references to the following menu button elements (not including top bar buttons):
-`{
+```{
     restart,
     resume,
     exit,
@@ -86,7 +86,7 @@ An object containing references to the following menu button elements (not inclu
     tutorial,
     report,
     back
-}`
+}```
 <br/><br/><br/>
 
 
