@@ -3,7 +3,8 @@ let config = {
    /*
    ** The HTML id of the canvas for the game.
    **
-   ** Options: any string, or the empty string ( "" ) if not using canvas
+   ** Options: any string, or an array of strings (if using multiple canvases),
+   **          or the empty string ( "" ) if not using canvas
    */
    canvasId: "game-canvas",
 
@@ -53,7 +54,7 @@ let config = {
     /*
     ** Whether the canvas drawing operations should scale to look sharper
     ** on retina displays (which have high device pixel ratios (DPRs).
-    ** WARNGING: may cause a decrease in performance.
+    ** WARNING: may cause a decrease in performance.
     **
     ** Options: true, false
     */

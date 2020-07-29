@@ -9,13 +9,12 @@ let resizer = (function() {
     
     // Private variables
 
-    // Figure out if user device is android or ios
     let _isInitialized = false;
     let _resizeEvents = [];
     let _numResizeEvents = 0;
 
     let _canvasBoundingRect;
-    let _context;
+    let _contexts;
 
 
     let _heightPlusPadding, _widthPlusPadding;
@@ -23,7 +22,7 @@ let resizer = (function() {
 
 
     // Private (exposed) variables
-    let _container, _canvas, _wrapper;
+    let _container, _canvases, _wrapper;
     let _currentHeight, _currentWidth;
     let _sizeMode;
     let _orientation;
@@ -68,7 +67,7 @@ let resizer = (function() {
     // coordinate system.
     function _getRelativeEventCoords(event) {
         // Scale coords correctly
-        let scale = _currentWidth / config.gameFieldWidth;
+        let scale = _currentWidth / _canvas.width;
 
         // Get x and y values
         let x = event.pageX - _getOffsetLeft(_canvas);
@@ -110,7 +109,7 @@ let resizer = (function() {
         const DPR = window.devicePixelRatio || 1;
         let ratio, i;
 
-        if (_canvas) {
+        if (_canvases) {
 
             // Get container's padding values
             _paddingLeft = parseFloat(window.getComputedStyle(_container).getPropertyValue('padding-left'));
@@ -190,26 +189,46 @@ let resizer = (function() {
                 }
             }
 
+            // Round out values
+            _currentWidth = Math.round(_currentWidth);
+            _currentHeight = Math.round(_currentHeight);
+
+            // Set logical canvas size
+            //_canvas.width = _currentWidth;//??????????
+            //_canvas.height = _currentHeight;//????????
+
+            // Scale everything down using CSS
+            if (_wrapper) {
+                _wrapper.style.width = _currentWidth + "px";
+                _wrapper.style.height = _currentHeight + "px";
+            }
+            else if (_canvases) {
+                for (i = 0; i < _canvases.length; i++) {
+                    _canvases[i].style.width = _currentWidth + "px";
+                    _canvases[i].style.height = _currentHeight + "px";
+                }
+            }
+
             // For high-DPI display, increase the actual size of the canvas
             // THIS WAS CAUSING SLOW PERFORMANCE ON DEVICES WITH HIGH DPR VALUES
 
-            if (config.scaleByDPR) {
-                _canvas.width = Math.round(config.gameFieldWidth * DPR);
-                _canvas.height = Math.round(config.gameFieldHeight * DPR);
+            if (config.scaleByDPR && _canvases) {
+                for (i = 0; i < _canvases.length; i++) {
+                    _canvases[i].width = Math.round(_canvas.width * DPR);
+                    _canvases[i].height = Math.round(_canvas.height * DPR);
+                }
 
                 // Ensure all drawing operations are scaled
-                _context.scale(DPR, DPR);
+                for (i = 0; i < _contexts.length; i++) {
+                    _contexts[i].scale(DPR, DPR);
+                }
             }
-
-            // Scale everything down using CSS
-            _wrapper.style.width = Math.round(_currentWidth) + "px";
-            _wrapper.style.height = Math.round(_currentHeight) + "px";
 
             // Position the canvas within the container according to config
             _positionCanvas();
 
             // Update bounding rect
-            _canvasBoundingRect = _canvas.getBoundingClientRect();
+            _canvasBoundingRect = _canvases[0].getBoundingClientRect();
         }
 
         // Call the resize event(s)
@@ -220,6 +239,7 @@ let resizer = (function() {
 
     // Center the canvas within the container
     function _positionCanvas() {
+        let i, targets;
         let bodyRect, containerRect, cPageX, cPageY;
 
         // Get the requested positioning
@@ -246,42 +266,55 @@ let resizer = (function() {
             cPageY = 0;
         }
 
-        // Vertical positioning
-        switch (position[0]) {
-            default:
-            case "center":
-                _wrapper.style.top = Math.round(cPageY + _paddingTop + ( (_heightPlusPadding/2) - (_currentHeight/2) )) + "px";
-                break;
-
-            case "top":
-                _wrapper.style.top = Math.round(cPageY + _paddingTop) + "px";
-                break;
-
-            case "bottom":
-                _wrapper.style.top = Math.round(cPageY + _container.clientHeight - _currentHeight - _paddingBottom) + "px";
-                break;
-            
+        if (_wrapper) {
+            targets = [_wrapper];
         }
+        else if (_canvases) {
+            targets = _canvases;
+        }
+        
+        // Position each target
+        for (i = 0; i < targets.length; i++) {
+                
+            // Vertical positioning
+            switch (position[0]) {
+                default:
+                case "center":
+                    targets[i].style.top = Math.round(cPageY + _paddingTop + ( (_heightPlusPadding/2) - (_currentHeight/2) )) + "px";
+                    break;
 
-        // Horizontal positioning
-        switch(position[1]) {
-            default:
-            case "center":
-                _wrapper.style.left = Math.round(cPageX + _paddingLeft + ( (_widthPlusPadding/2) - (_currentWidth/2) )) + "px";
-                break;
+                case "top":
+                    targets[i].style.top = Math.round(cPageY + _paddingTop) + "px";
+                    break;
 
-            case "left":
-                _wrapper.style.left = Math.round(cPageX + _paddingLeft) + "px";
-                break;
+                case "bottom":
+                    targets[i].style.top = Math.round(cPageY + _container.clientHeight - _currentHeight - _paddingBottom) + "px";
+                    break;
+                
+            }
 
-            case "right":
-                _wrapper.style.left = Math.round(cPageX + _container.clientWidth - _currentWidth - _paddingRight) + "px";
-                break;
+            // Horizontal positioning
+            switch(position[1]) {
+                default:
+                case "center":
+                    targets[i].style.left = Math.round(cPageX + _paddingLeft + ( (_widthPlusPadding/2) - (_currentWidth/2) )) + "px";
+                    break;
+
+                case "left":
+                    targets[i].style.left = Math.round(cPageX + _paddingLeft) + "px";
+                    break;
+
+                case "right":
+                    targets[i].style.left = Math.round(cPageX + _container.clientWidth - _currentWidth - _paddingRight) + "px";
+                    break;
+            }
         }
     }
 
     // Initialize the resizer
     function _init() {
+        let i;
+
         // Begin loading once window is loaded
         if(!_isInitialized) {
             _isInitialized = true;
@@ -289,18 +322,32 @@ let resizer = (function() {
             // Get container
             _container = document.getElementById(config.containerId);
 
+            // Get the canvas/wrapper info
             if (config.canvasId !== "") {
+                _canvases = [];
+                _contexts = [];
 
-                // Get the canvas/wrapper info
-                _canvas = document.getElementById(config.canvasId);
-                _context = _canvas.getContext("2d");
+                // Multiple canvases
+                if (Array.isArray(config.canvasId)) {
+                    for (i = 0; i < config.canvasId.length; i++) {
+                        _canvases.push(document.getElementById(config.canvasId[i]));
+                    }
+                }
+
+                // One canvas
+                else {
+                    _canvases.push(document.getElementById(config.canvasId));
+                    _contexts.push(_canvases[0].getContext("2d"));
+                }
 
                 // Set canvas width and height
                 _currentWidth = config.gameFieldWidth;
                 _currentHeight = config.gameFieldHeight;
 
-                _canvas.width = _currentWidth;
-                _canvas.height = _currentHeight;
+                for (i = 0; i < _canvases.length; i++) {
+                    _canvases[i].width = _currentWidth;
+                    _canvases[i].height = _currentHeight;
+                }
 
 
                 // Check if wrapper is being used
@@ -308,15 +355,25 @@ let resizer = (function() {
                     _wrapper = document.getElementById(config.wrapperId);
 
                     // The wrapper is resized while the canvas just fits to the wrapper
-                    _canvas.style.width = "100%";
-                    _canvas.style.height = "100%";
+                    for (i = 0; i < _canvases.length; i++) {
+                        _canvases[i].style.width = "100%";
+                        _canvases[i].style.height = "100%";
+                    }
+
+                    // Wrapper must be absolutely positioned to position it correctly within container
+                    _wrapper.style.position = "absolute";
                 }
                 else {
-                    _wrapper = _canvas;
+                    _wrapper = null;
+                }
+
+                // Canvases must be absolutely positioned to position it correctly within container
+                for (i = 0; i < _canvases.length; i++) {
+                    _canvases[i].style.position = "absolute";
+                    _canvases[i].style.position = "absolute";
                 }
                 
-                // Wrapper must be absolutely positioned to position it correctly within container
-                _wrapper.style.position = "absolute";
+                
             }
 
             // Set resize events
@@ -352,8 +409,12 @@ let resizer = (function() {
     }
 
     function _getCanvas() {
-        if (_canvas) {
-            return _canvas;
+        if (_canvases.length > 1) {
+            return _canvases;
+        }
+
+        else if (_canvases.length === 1) {
+            return _canvases[0];
         }
 
         else {

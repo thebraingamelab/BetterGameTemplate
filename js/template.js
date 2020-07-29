@@ -12,6 +12,7 @@ let template = (function() {
         pauseBtn: document.getElementById("pause"),
         helpBtn: document.getElementById("help"),
         allTopBtns: document.querySelectorAll(".bar-button"),
+        livesDiv: document.getElementById("lives"),
 
         // Pause menu elements
         pauseMenu: document.getElementById("pause-menu"),
@@ -254,6 +255,20 @@ let template = (function() {
         use.setAttribute("href", "#"+svgId);
     }
 
+    function _addLife() {
+        let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        let use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+
+        use.setAttribute("href", "#heart");
+
+        svg.appendChild(use);
+        HTML.livesDiv.appendChild(svg);
+    }
+
+    function _removeLife() {
+        HTML.livesDiv.removeChild(HTML.livesDiv.firstElementChild);
+    }
+
     function _pause() {
         _paused = true;
     }
@@ -279,6 +294,8 @@ let template = (function() {
         switchMenu: _switchMenu,
 
         setIcon: _setIcon,
+        addLife: _addLife,
+        removeLife: _removeLife,
         pause: _pause,
         unpause: _unpause,
 

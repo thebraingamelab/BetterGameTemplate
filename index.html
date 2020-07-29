@@ -61,7 +61,7 @@
     <script src="Resizer/resizer.js" defer></script>
 
     <!-- UI Template utility object -->
-    <script src="template.js" defer></script>
+    <script src="js/template.js" defer></script>
 
 
     <!-- Your JS/CSS files go here -->
@@ -69,9 +69,10 @@
     <!-- eg if example.js uses template or Resizer functions, it must have the defer attribute
          and come *after* the Resizer/template script tags in order for those functions to be defined. -->
 
-    <link href="style.css" rel="stylesheet">
+    <link href="css/template.css" rel="stylesheet">
+    <link href="css/example.css" rel="stylesheet">
 
-    <script src="example.js" defer></script>
+    <script src="js/example.js" defer></script>
     <!--<script src="optional1.js" defer></script>-->
     <!--<script src="optional2.js" defer></script>-->
 </head>
@@ -188,7 +189,9 @@
         </div>
 
         <!-- Any additional HTML content can go here -->
-        
+        <div id="pp">
+            <img style="position: absolute; left: 0; top: 0; display: initial;" src="ghost.png">
+        </div>
 
         
         <!-- The game canvas -->

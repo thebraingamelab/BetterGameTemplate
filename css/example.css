@@ -1,0 +1,40 @@
+/*/////////////////////////////////*/
+/* General element styles          */
+/*/////////////////////////////////*/
+
+/* Get rid of annoying automatic margins/padding, just override when needed */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensures the document body logically fits the size of the screen */
+html {
+    height: 100%;
+    width: 100%;
+}
+
+/* Also ensures the document body logically fits the size of the screen (no scrollbars either) */
+body {
+    background-color: black; 
+    margin: 0; 
+    padding: 0; 
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+
+    /* A container position other than static is required for canvas/wrapper positioning (i.e. bottom center) to work */
+    position: relative;
+
+    /* Set page font families */
+    font-family: 'Overpass', 'Segoe UI', monospace, sans-serif;
+}
+
+/* Styling for the game canvas */
+/*******************************/
+canvas {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
