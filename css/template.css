@@ -444,7 +444,7 @@
 
 /* Media queries to set different font sizes for various screen sizes */
 /**********************************************************************/
-@media screen and (min-height: 601px) { /* NOTE TO SELF: also do min-width and maxwidth queries */
+@media screen and (min-height: 601px) {
     * {
         font-size: 16px;
         letter-spacing: 3px;
