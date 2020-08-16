@@ -485,6 +485,8 @@ let resizer = (function() {
             _resizeEvents.length = _resizeEvents.length-1;
         }
 
+        _numResizeEvents--;
+
         return true;
     }
 
