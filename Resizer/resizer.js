@@ -446,14 +446,29 @@ let resizer = (function() {
     // Mutators
 
     function _addResizeEvent(func) {
-        _resizeEvents.push(func);
-        _numResizeEvents++;
+
+        // Validate func
+        if (func) {
+
+            // Add the function to list of events
+            _resizeEvents.push(func);
+            _numResizeEvents++;
+            return true;
+        }
+
+        // Undefined func
+        else {
+            return false;
+        }
     }
 
     function _removeResizeEvent(func) {
         let i = 0;
 
         // Validate func
+        if (!func) {
+            return false;
+        }
         
         // Look for the function in the array
         while (_resizeEvents[i] !== func && i < _numResizeEvents) {
@@ -467,6 +482,8 @@ let resizer = (function() {
         
             _resizeEvents.length = _resizeEvents.length-1;
         }
+
+        return true;
     }
 
     return {
