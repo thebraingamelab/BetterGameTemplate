@@ -387,9 +387,11 @@ let resizer = (function() {
             // Do the first resize immediately
             _resize();
 
+            return true;
         }
         else {
             console.log("ERROR: resizer already initialized.");
+            return false;
         }
     }
     
