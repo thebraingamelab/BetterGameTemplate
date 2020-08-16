@@ -452,6 +452,8 @@ let resizer = (function() {
 
     function _removeResizeEvent(func) {
         let i = 0;
+
+        // Validate func
         
         // Look for the function in the array
         while (_resizeEvents[i] !== func && i < _numResizeEvents) {

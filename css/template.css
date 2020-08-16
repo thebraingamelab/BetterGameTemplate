@@ -370,6 +370,20 @@
 }
 
 
+/* Optional background for bar menu */
+/************************************/
+#bar-background {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    z-index: 0;
+
+    /* Disabled by default */
+    display: none;
+}
+
 
 /*/////////////////////////////////*/
 /* Specific top bar button styling */
@@ -430,7 +444,7 @@
 
 /* Media queries to set different font sizes for various screen sizes */
 /**********************************************************************/
-@media screen and (min-height: 601px) {
+@media screen and (min-height: 601px) { /* NOTE TO SELF: also do min-width and maxwidth queries */
     * {
         font-size: 16px;
         letter-spacing: 3px;

@@ -13,6 +13,7 @@ let template = (function() {
         helpBtn: document.getElementById("help"),
         allTopBtns: document.querySelectorAll(".bar-button"),
         livesDiv: document.getElementById("lives"),
+        barBackground: document.getElementById("bar-background"),
 
         // Pause menu elements
         pauseMenu: document.getElementById("pause-menu"),
@@ -44,9 +45,10 @@ let template = (function() {
     };
     
 
-    // Private (exposed) variables
+    // Private variables
     let _paused = false;
     let _topBarBoxSize = 0;
+    let _resizeBarBG;
 
     // Functions
     function _init() {
@@ -277,6 +279,55 @@ let template = (function() {
         _paused = false;
     }
 
+    function _setBarBackground(fillChoice, imgOptions) {
+        const VALID_EXTENSIONS = ["bmp", "ico", "cur", "gif", "jpg", "jpeg", "jfif", "png", "svg", "tif", "tiff", "webp"];
+        let bgCutoff;
+        let i;
+
+        // If fillChoice is an image, get the file extension here
+        let extension = fillChoice.substring(fillChoice.indexOf(".")+1)
+
+        // Check if fillChoice is color
+        if (extension !== -1 && fillChoice.substr(0, 1) === "#" && fillChoice.length <= 7) {
+            HTML.barBackground.style.backgroundColor = fillChoice;
+        }
+
+        // Check if fillChoice is an image
+        else if (extension !== -1 && VALID_EXTENSIONS.indexOf(extension) !== -1) {
+            HTML.barBackground.style.backgroundImage = "url("+fillChoice+")";
+
+            // Get optional parameters for the image
+            imgOptions = imgOptions || {};
+
+            HTML.barBackground.style.backgroundPosition = imgOptions.position || "center";
+            HTML.barBackground.style.backgroundRepeat = imgOptions.repeat || "no-repeat";
+            HTML.barBackground.style.backgroundSize = imgOptions.size || "100% 100%";
+        }
+
+        // Problematic argument given
+        else {
+            console.log("Error: malformed argument passed to setBarBackground. It must be a color (ie #ff00ff) or an image (ie img/sprite.jpg)");
+            return;
+        }
+
+        // Determine where the top bar/background ends and the canvas
+        // begins (the y-coordinate relative to container)
+        bgCutoff = HTML.topBar.offsetTop + HTML.livesDiv.offsetTop + HTML.livesDiv.offsetHeight;
+
+        // Display the bar background
+        HTML.barBackground.style.display = "initial";
+        HTML.barBackground.style.height = bgCutoff + 10 + "px"; // (+10px additonal aesthetic margin)
+
+        // Remove any previous resize events for this function
+        resizer.removeResizeEvent(_resizeBarBG);
+
+        // Make a function using the new passed parameters
+        _resizeBarBG = function() { _setBarBackground(fillChoice, imgOptions); };
+        
+        // Add a resize event for this function
+        resizer.addResizeEvent(_resizeBarBG);
+    }
+
     // Accessors
     function _isPaused() {
         return _paused;
@@ -285,6 +336,7 @@ let template = (function() {
     return {
         init: _init,
         resizeBarButtons: _resizeBarButtons,
+        setBarBackground: _setBarBackground,
         addConfirm: _addConfirm,
         removeNotImplemented: _removeNotImplemented,
         goToBGL: _goToBGL,
