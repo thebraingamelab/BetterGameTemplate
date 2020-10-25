@@ -306,7 +306,7 @@ let template = (function() {
 
         // Problematic argument given
         else {
-            console.log("Error: malformed argument passed to setBarBackground. It must be a color (ie #ff00ff) or an image (ie img/sprite.jpg)");
+            console.log("Error: malformed argument passed to setBarBackground. It must be a color (ie '#ff00ff') or an image (ie 'img/sprite.jpg')");
             return;
         }
 
@@ -315,7 +315,7 @@ let template = (function() {
         bgCutoff = HTML.topBar.offsetTop + HTML.livesDiv.offsetTop + HTML.livesDiv.offsetHeight;
 
         // Display the bar background
-        HTML.barBackground.style.display = "initial";
+        HTML.barBackground.style.display = "block";
         HTML.barBackground.style.height = bgCutoff + 10 + "px"; // (+10px additonal aesthetic margin)
 
         // Remove any previous resize events for this function
@@ -323,7 +323,7 @@ let template = (function() {
 
         // Make a function using the new passed parameters
         _resizeBarBG = function() { _setBarBackground(fillChoice, imgOptions); };
-        
+
         // Add a resize event for this function
         resizer.addResizeEvent(_resizeBarBG);
     }

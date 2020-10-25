@@ -65,13 +65,18 @@ let resizer = (function() {
     // Because events give coords in terms of the page,
     // this function converts those in terms of the actual game's
     // coordinate system.
-    function _getRelativeEventCoords(event) {
+    function _getRelativeEventCoords(event, theCanvas) {
+
+        if (typeof theCanvas === 'undefined') {
+            theCanvas = _canvases[0];
+        }
+
         // Scale coords correctly
-        let scale = _currentWidth / _canvas.width;
+        let scale = _currentWidth / theCanvas.width;
 
         // Get x and y values
-        let x = event.pageX - _getOffsetLeft(_canvas);
-        let y = event.pageY - _getOffsetTop(_canvas);
+        let x = event.pageX - _getOffsetLeft(theCanvas);
+        let y = event.pageY - _getOffsetTop(theCanvas);
 
         return {
             x: x/scale,
@@ -214,8 +219,8 @@ let resizer = (function() {
 
             if (config.scaleByDPR && _canvases) {
                 for (i = 0; i < _canvases.length; i++) {
-                    _canvases[i].width = Math.round(_canvas.width * DPR);
-                    _canvases[i].height = Math.round(_canvas.height * DPR);
+                    _canvases[i].width = Math.round(_canvases[i].width * DPR);
+                    _canvases[i].height = Math.round(_canvases[i].height * DPR);
                 }
 
                 // Ensure all drawing operations are scaled
