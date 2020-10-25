@@ -23,7 +23,7 @@ Remove the specified function from the list of functions that are executed each 
 
 ### `resizer.getRelativeEventCoords(event, [optional: theCanvas])`
 Only applicable if using a canvas. Returns an object containing the x- and y-coordinates of the event in question in terms of the game field within the canvas. Events such as the click and touch events give you coordinates relative to the page, so use this function to get coordinates relative to the game.
-<br/>
+<br/><br/>
 *Note: you may pass in an optional reference to a canvas object to specify the canvas relative to which you want to calculate your event coordinates. By default, coordinates are relative to the first canvasId given in the configuration.
 <br/><br/><br/>
 
