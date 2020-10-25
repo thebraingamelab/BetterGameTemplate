@@ -13,7 +13,7 @@ let template = (function() {
         helpBtn: document.getElementById("help"),
         allTopBtns: document.querySelectorAll(".bar-button"),
         livesDiv: document.getElementById("lives"),
-        barBackground: document.getElementById("bar-background"),
+        /*barBackground: document.getElementById("bar-background"),*/
 
         // Pause menu elements
         pauseMenu: document.getElementById("pause-menu"),
@@ -48,7 +48,7 @@ let template = (function() {
     // Private variables
     let _paused = false;
     let _topBarBoxSize = 0;
-    let _resizeBarBG;
+    /*let _resizeBarBG;*/
 
     // Functions
     function _init() {
@@ -278,7 +278,7 @@ let template = (function() {
     function _unpause() {
         _paused = false;
     }
-
+/*
     function _setBarBackground(fillChoice, imgOptions) {
         const VALID_EXTENSIONS = ["bmp", "ico", "cur", "gif", "jpg", "jpeg", "jfif", "png", "svg", "tif", "tiff", "webp"];
         let bgCutoff;
@@ -326,7 +326,7 @@ let template = (function() {
 
         // Add a resize event for this function
         resizer.addResizeEvent(_resizeBarBG);
-    }
+    }*/
 
     // Accessors
     function _isPaused() {
@@ -336,7 +336,7 @@ let template = (function() {
     return {
         init: _init,
         resizeBarButtons: _resizeBarButtons,
-        setBarBackground: _setBarBackground,
+        /*setBarBackground: _setBarBackground,*/
         addConfirm: _addConfirm,
         removeNotImplemented: _removeNotImplemented,
         goToBGL: _goToBGL,
