@@ -2,8 +2,8 @@ let resizer = (function() {
     "use strict";
 
     // This is all poot if config isn't loaded
-    if (!config) {
-        console.log("ERROR: unable to load config.js");
+    if (typeof config === "undefined" || !config) {
+        console.error("ERROR: unable to load config.js");
         return null;
     }
     
@@ -335,7 +335,13 @@ let resizer = (function() {
                 // Multiple canvases
                 if (Array.isArray(config.canvasId)) {
                     for (i = 0; i < config.canvasId.length; i++) {
-                        _canvases.push(document.getElementById(config.canvasId[i]));
+                        let theCanvas = document.getElementById(config.canvasId[i]);
+                        if (theCanvas) {
+                            _canvases.push(theCanvas);
+                        }
+                        else {
+                            console.error("ERROR: canvas '"+config.canvasId[i]+"' not found");
+                        }
                     }
                 }
 
@@ -395,7 +401,7 @@ let resizer = (function() {
             return true;
         }
         else {
-            console.log("ERROR: resizer already initialized.");
+            console.error("ERROR: resizer already initialized.");
             return false;
         }
     }
@@ -425,7 +431,7 @@ let resizer = (function() {
         }
 
         else {
-            console.log("ERROR: canvas has been set to false in config.js");
+            console.error("ERROR: canvas has been set to false in config.js");
             return null;
         }
     }
